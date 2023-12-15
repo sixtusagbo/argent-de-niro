@@ -1,2 +1,2 @@
 # argent-de-niro
-Finance App
+Personal Finance App
