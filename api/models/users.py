@@ -9,7 +9,7 @@ class User(Document):
     first_name = StringField(required=True)
     last_name = StringField(required=True)
     password = StringField(required=True)
-    email = StringField(required=True)
+    email = StringField(required=True, unique=True)
     birth_date = DateField(required=True)
     profile_pic = StringField()
     country = StringField()
