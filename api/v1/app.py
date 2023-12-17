@@ -6,11 +6,13 @@ from os import getenv
 from flask import Flask, jsonify
 from flask_cors import CORS
 from api.v1.views import app_views
+from api.models import init_db
 
 app = Flask(__name__)
 app.url_map.strict_slashes = False
 app.register_blueprint(app_views)
 CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
+init_db()
 
 
 @app.errorhandler(401)
