@@ -22,6 +22,8 @@ class Transaction(Document):
 
     user_id = ObjectIdField(required=True)
     category_id = ObjectIdField()
+    budget_id = ObjectIdField()
+    goal_id = ObjectIdField()
 
     type = EnumField(TransactionType, default=TransactionType.EXPENSE)
     amount = DecimalField(required=True)
