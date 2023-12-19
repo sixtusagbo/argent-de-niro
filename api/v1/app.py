@@ -10,7 +10,7 @@ from api.models import init_db
 from uuid import uuid4
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = getenv('ADN_SECRET_KEY', str(uuid4()))
+app.config['SECRET_KEY'] = getenv('ADN_SECRET_KEY', 'foobar')
 app.url_map.strict_slashes = False
 app.register_blueprint(app_views)
 CORS(app, resources={r"/api/v1/*": {"origins": "*"}})

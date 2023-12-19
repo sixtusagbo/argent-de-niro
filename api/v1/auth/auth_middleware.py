@@ -25,6 +25,10 @@ def token_required(f):
             current_user = User.objects(email=data['email']).first()
             if current_user is None:
                 abort(401)
+        except jwt.ExpiredSignatureError:
+            abort(400, 'Expired token')
+        except jwt.InvalidTokenError:
+            abort(400, 'Invalid token')
         except Exception:
             abort(401)
 
