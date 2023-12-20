@@ -3,9 +3,10 @@ Authentication routes
 """
 from datetime import datetime, timedelta
 import json
-from flask import abort, current_app, jsonify, request
+from flask import Response, abort, current_app, jsonify, request
 import jwt
 from api.models.users import User
+from api.v1.auth.auth_middleware import token_required
 from api.v1.auth.passwords import is_valid
 from api.v1.views import app_views
 
@@ -110,3 +111,13 @@ def refresh_token():
         abort(400, 'Invalid token')
     except Exception:
         abort(401)
+
+
+@app_views.route("/logout", methods=["POST"])
+@token_required
+def logout(current_user: User) -> Response:
+    """Remove refresh cookie and invalidate token"""
+    response = jsonify({"message": "Logged out successfully"})
+    response.set_cookie("refresh_token", "", max_age=0, httponly=True)
+
+    return response
