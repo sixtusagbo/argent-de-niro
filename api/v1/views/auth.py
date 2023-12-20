@@ -13,7 +13,13 @@ from api.v1.views import app_views
 
 @app_views.route("/login", methods=["POST"])
 def login():
-    """Return access and refresh tokens"""
+    """POST api/v1/login
+    JSON body:
+        - email
+        - password
+    Return:
+        - access token and current user
+    """
     payload = request.get_json()
     if not payload:
         abort(400, "Invalid JSON")
@@ -65,6 +71,10 @@ def login():
 
 @app_views.route("/refresh", methods=["GET"])
 def refresh_token():
+    """GET /api/v1/refresh
+    Return:
+        - New access token
+    """
     refresh_token = request.cookies.get('refresh_token')
     print(refresh_token)
     if not refresh_token:
@@ -116,7 +126,11 @@ def refresh_token():
 @app_views.route("/logout", methods=["POST"])
 @token_required
 def logout(current_user: User) -> Response:
-    """Remove refresh cookie and invalidate token"""
+    """POST /api/v1/logout
+    Remove refresh cookie and invalidate token
+    Return:
+        - success message
+    """
     response = jsonify({"message": "Logged out successfully"})
     response.set_cookie("refresh_token", "", max_age=0, httponly=True)
 
