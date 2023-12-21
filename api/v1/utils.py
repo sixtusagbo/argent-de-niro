@@ -7,7 +7,7 @@ from werkzeug.datastructures import FileStorage
 import os
 
 
-def save_profile_pic(picture: FileStorage):
+def save_profile_pic(picture: FileStorage) -> str:
     """Save an image in the server and return the file name"""
     file_name = token_hex(8) + os.path.splitext(picture.filename)[1]
     root_path = current_app.root_path
@@ -23,3 +23,11 @@ def save_profile_pic(picture: FileStorage):
     except OSError:
         abort(400, "Could not save image")
     return file_name
+
+
+def remove_file(filename: str, path: str) -> None:
+    """Delete a file"""
+    root_path = current_app.root_path
+    file_path = os.path.join(root_path, path, filename)
+    if os.path.exists(file_path):
+        os.remove(file_path)

@@ -14,15 +14,13 @@ from api.v1.views import app_views
 @app_views.route("/login", methods=["POST"])
 def login():
     """POST api/v1/login
-    JSON body:
+    Form body:
         - email
         - password
     Return:
         - access token and current user
     """
-    payload = request.get_json()
-    if not payload:
-        abort(400, "Invalid JSON")
+    payload = request.form
     if "email" not in payload:
         abort(400, "Missing email")
     if "password" not in payload:

@@ -4,8 +4,9 @@ from datetime import datetime
 import json
 from flask import Response, abort, jsonify, request
 from api.models.user import User
+from api.v1.auth.auth_middleware import token_required
 from api.v1.auth.passwords import hash_password
-from api.v1.utils import save_profile_pic
+from api.v1.utils import remove_file, save_profile_pic
 from api.v1.views import app_views
 
 
@@ -72,3 +73,31 @@ def create_user() -> Response:
     except Exception as e:
         print(e)
         abort(400, "Problem creating user: {}".format(e))
+
+
+@app_views.route("/users/<user_id>", methods=["GET"])
+@token_required
+def view_single_user(current_user: User, user_id: str = None) -> Response:
+    """GET /api/v1/users/<user_id>
+    Path params:
+        - user_id
+    Return:
+        - User info in JSON
+    """
+    if user_id is None:
+        abort(404)
+    user = None
+    if user_id == 'me':
+        user = current_user
+    else:
+        user = User.objects(id=user_id).first()
+    if user is None:
+        abort(404)
+
+    result = json.loads(user.to_json())
+    result['id'] = result['_id']['$oid']
+    result['birth_date'] = result['birth_date']['$date']
+    del result['_id']
+    del result['password']
+
+    return jsonify(result)
