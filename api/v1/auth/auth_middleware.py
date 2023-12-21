@@ -5,7 +5,7 @@ Authentication middleware
 from functools import wraps
 from flask import abort, current_app, request
 import jwt
-from api.models.users import User
+from api.models.user import User
 
 
 def token_required(f):

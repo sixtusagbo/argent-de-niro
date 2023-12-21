@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 import json
 from flask import Response, abort, current_app, jsonify, request
 import jwt
-from api.models.users import User
+from api.models.user import User
 from api.v1.auth.auth_middleware import token_required
 from api.v1.auth.passwords import is_valid
 from api.v1.views import app_views
@@ -128,8 +128,6 @@ def refresh_token():
 def logout(current_user: User) -> Response:
     """POST /api/v1/logout
     Remove refresh cookie and invalidate token
-    Return:
-        - success message
     """
     response = jsonify({"message": "Logged out successfully"})
     response.set_cookie("refresh_token", "", max_age=0, httponly=True)

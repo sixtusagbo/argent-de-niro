@@ -4,7 +4,7 @@ Index views
 """
 import json
 from flask import Response, jsonify
-from api.models.users import User
+from api.models.user import User
 from api.v1.views import app_views
 
 
