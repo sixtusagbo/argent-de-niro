@@ -101,3 +101,85 @@ def view_single_user(current_user: User, user_id: str = None) -> Response:
     del result['password']
 
     return jsonify(result)
+
+
+@app_views.route("/users/<user_id>", methods=["PUT"])
+@token_required
+def update_user(current_user: User, user_id: str = None) -> Response:
+    """PUT /api/v1/users/<user_id>
+    Path params:
+        - user_id
+    Form body:
+        - first_name (optional)
+        - last_name (optional)
+        - email (optional)
+        - password (optional)
+        - birth_date (optional)
+        - country (optional)
+        - timezone (optional)
+        - currency (optional)
+    Files:
+        - profile_pic (optional)
+    Return:
+        - Updated user in JSON
+        - 404 if the user is not found
+        - 400 if user update fails
+    """
+    # Validate
+    if user_id is None:
+        abort(404)
+    user = None
+    if user_id == 'me':
+        user = current_user
+    else:
+        try:
+            user = User.objects(id=user_id).first()
+        except Exception:
+            abort(404)
+    if user is None:
+        abort(404)
+    payload = request.form
+
+    # Update data
+    try:
+        if "first_name" in payload:
+            user.first_name = payload.get("first_name")
+        if "last_name" in payload:
+            user.last_name = payload.get("last_name")
+        if "email" in payload:
+            user.email = payload.get("email")
+        if "password" in payload:
+            user.password = hash_password(payload.get("password"))
+        if "birth_date" in payload:
+            user.birth_date = datetime.fromisoformat(
+                payload.get("birth_date")
+            ).date()
+        if "country" in payload:
+            user.country = payload.get("country")
+        if "timezone" in payload:
+            user.timezone = payload.get("timezone")
+        if "currency" in payload:
+            user.currency = payload.get("currency")
+        if (
+            request.files.get('profile_pic') is not None
+            and request.files['profile_pic'].filename != ''
+        ):
+            old_pic = user.profile_pic.split('/')[-1]
+            remove_file(old_pic, "static/profile_images")
+            user.profile_pic = "{}static/profile_images/{}".format(
+                request.host_url,
+                save_profile_pic(request.files['profile_pic']),
+            )
+
+        user.save()
+    except Exception as e:
+        abort(400, "User update failed: {}".format(e))
+
+    # return updated user
+    result = json.loads(user.to_json())
+    result['id'] = result['_id']['$oid']
+    result['birth_date'] = result['birth_date']['$date']
+    del result['_id']
+    del result['password']
+
+    return jsonify(result)
