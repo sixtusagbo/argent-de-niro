@@ -1,4 +1,5 @@
 import Proptypes from 'prop-types';
+import { UilPlusCircle } from '@iconscout/react-unicons';
 
 /**
  * Button component for all buttons.
@@ -12,6 +13,7 @@ const Button = ({ label, intent }) => {
     let color;
     let bgColor;
     let borderColor;
+    let iconURL;
 
     if (intent === 'welcoming') {
         color = 'text-white';
@@ -29,10 +31,13 @@ const Button = ({ label, intent }) => {
         color = 'text-black';
         bgColor = 'bg-[#D9D9D9]';
         borderColor = 'border-[#D9D9D9]';
+        iconURL = <UilPlusCircle className="inline-block mr-1" size={30} />;
     }
     return (
-        <button className={`${color} ${bgColor} ${borderColor} px-8 rounded-3xl py-2`}>
+        <button className={`${color} ${bgColor} ${borderColor} px-5 rounded-3xl py-2 text-center text-base`}>
+            {iconURL }
             {label}
+            
         </button>
     );
 };

@@ -7,7 +7,8 @@ export default {
   theme: {
     extend: {
       fontFamily:{
-        'name': ['Montserrat Alternates', 'sans-serif'],
+        'name': ['Montserrat Alternates', 'Montserrat', 'sans-serif'],
+        'headings': ['Nunito', 'Nunito Sans', 'Varela Round', 'sans-serif'],
       }
     },
   },
