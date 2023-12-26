@@ -11,7 +11,7 @@ import dart from '../assets/dart.svg';
 import graph from '../assets/graph.svg';
 
 const Menubar = () => {
-    const [activeItem, setActiveItem, activeClass, setActiveClass] = useState('home');
+    const [activeItem, setActiveItem] = useState('home');
     // const []
 
     const handleItemClick = (item) => {
