@@ -34,10 +34,10 @@ const Button = ({ label, intent }) => {
         iconURL = <UilPlusCircle className="inline-block mr-1" size={30} />;
     }
     return (
-        <button className={`${color} ${bgColor} ${borderColor} px-5 rounded-3xl py-2 text-center text-base`}>
-            {iconURL }
+        <button className={`${color} ${bgColor} ${borderColor} px-6 rounded-3xl py-2 text-center text-lg`}>
+            {iconURL}
             {label}
-            
+
         </button>
     );
 };
