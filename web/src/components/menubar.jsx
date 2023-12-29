@@ -1,3 +1,8 @@
+/**
+ * Represents a menu bar component.
+ * @component
+ */
+
 import React, { useState } from 'react';
 import logo from '../assets/logo.svg';
 import Button from './button';
@@ -10,43 +15,50 @@ import walletff from '../assets/walletff.svg';
 import dart from '../assets/dart.svg';
 import graph from '../assets/graph.svg';
 
+
 const Menubar = () => {
     let white = 'text-white text-xl text-center';
     let black = 'text-black bg-[D9D9D9] text-xl';
 
-    // const padding = 'py-3 px-5';
-
     const [activeItem, setActiveItem] = useState('home');
 
+    /**
+     * Handles the click event of a menu item.
+     * @param {string} item - The item that was clicked.
+     */
     const handleItemClick = (item) => {
         setActiveItem(item);
     };
 
     return (
-        <menu className='bg-[#43534D] w-1/5 h-screen'>
-            <img src={logo} alt="logo" className='pt-3' width={80} height={41} />
-            <section className=''>
-                <ul className="list-none mt-36 mb-12 content-center">
-                    <li className={activeItem === 'home' ? 'bg-[#D9D9D9]' : 'bg-[#43534D]'}>
-                        <img src={activeItem === 'home' ? home : nchome} alt="home icon" className='inline-block mr-2 ml-5' width={30} height={31} />
-                        <a href="#home" className={activeItem === 'home' ? black : white} onClick={() => handleItemClick('home')}>Home</a>
-                    </li>
-                    <li className={activeItem === 'budget' ? 'bg-[#D9D9D9]' : 'bg-[#43534D]'}>
-                        <img src={activeItem === 'budget' ? walletff : newwallet} alt="budget icon" className='inline-block mr-2 ml-5' width={30} height={31} />
-                        <a href="#budget" className={activeItem === 'budget' ? black : white} onClick={() => handleItemClick('budget')}>Budget</a>
-                    </li>
-                    <li className={activeItem === 'goals' ? 'bg-[#D9D9D9]' : 'bg-[#43534D]'}>
-                        <img src={activeItem === 'goals' ? dart : ncdart} alt="goals icon" className='inline-block mr-2 ml-5' width={30} height={31} />
-                        <a href="#goals" className={activeItem === 'goals' ? black : white} onClick={() => handleItemClick('goals')}>Goals</a>
-                    </li>
-                    <li className={activeItem === 'analytics' ? 'bg-[#D9D9D9]' : 'bg-[#43534D]'}>
-                        <img src={activeItem === 'analytics' ? graph : ncgraph} alt="analytics icon" className='inline-block mr-2 ml-5' width={30} height={31} />
-                        <a href="#analytics" className={activeItem === 'analytics' ? black : white} onClick={() => handleItemClick('analytics')}>Analytics</a>
-                    </li>
-                </ul>
+        <menu >
+            <section className='bg-[#43534D] w-1/5 max-lg:hidden  h-screen relative'>
+                <img src={logo} alt="logo" className='pt-3' width={80} height={41} />
+                <section className='flex flex-col'>
+                    <ul className="list-none mt-36 mb-12 content-center">
+                        <li className={activeItem === 'home' ? 'bg-[#D9D9D9]' : 'bg-[#43534D]'}>
+                            <img src={activeItem === 'home' ? home : nchome} alt="home icon" className='inline-block mr-2 ml-5' width={30} height={31} />
+                            <a href="#home" className={activeItem === 'home' ? black : white} onClick={() => handleItemClick('home')}>Home</a>
+                        </li>
+                        <li className={activeItem === 'budget' ? 'bg-[#D9D9D9]' : 'bg-[#43534D]'}>
+                            <img src={activeItem === 'budget' ? walletff : newwallet} alt="budget icon" className='inline-block mr-2 ml-5' width={30} height={31} />
+                            <a href="#budget" className={activeItem === 'budget' ? black : white} onClick={() => handleItemClick('budget')}>Budget</a>
+                        </li>
+                        <li className={activeItem === 'goals' ? 'bg-[#D9D9D9]' : 'bg-[#43534D]'}>
+                            <img src={activeItem === 'goals' ? dart : ncdart} alt="goals icon" className='inline-block mr-2 ml-5' width={30} height={31} />
+                            <a href="#goals" className={activeItem === 'goals' ? black : white} onClick={() => handleItemClick('goals')}>Goals</a>
+                        </li>
+                        <li className={activeItem === 'analytics' ? 'bg-[#D9D9D9]' : 'bg-[#43534D]'}>
+                            <img src={activeItem === 'analytics' ? graph : ncgraph} alt="analytics icon" className='inline-block mr-2 ml-5' width={30} height={31} />
+                            <a href="#analytics" className={activeItem === 'analytics' ? black : white} onClick={() => handleItemClick('analytics')}>Analytics</a>
+                        </li>
+                    </ul>
+                    <Button label="Transaction" intent="transaction" />
+                </section>
             </section>
-
-            <Button label="Transaction" intent="transaction" />
+            <section className='bg-zinc-100 max-lg:bg-[#43534D] h-20 max-lg:w-full w-4/5 absolute top-0 right-0'>
+                <h2 className='p-7 max-lg:text-white'> {activeItem.toUpperCase()} </h2>
+            </section>
         </menu>
     );
 };

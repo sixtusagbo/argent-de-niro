@@ -39,7 +39,7 @@ const Button = ({ label, intent }) => {
         width = ' w-3/4';
     }
     return (
-        <button className={`${color} ${bgColor} ${borderColor} ${width} px-6 py-2 rounded-3xl text-center text-lg m-4`}>
+        <button className={`${color} ${bgColor} ${borderColor} ${width} px-2 py-2 rounded-3xl text-center text-lg m-4`}>
             {iconURL}
             {label}
 

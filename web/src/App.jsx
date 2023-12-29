@@ -4,14 +4,16 @@ import viteLogo from '/vite.svg'
 import './App.css'
 import Menubar from './components/menubar'
 
+
 function App() {
   const [count, setCount] = useState(0)
 
   return (
     <>
-    <main>
-      <Menubar/>
-    </main>
+      <main>
+
+        <Menubar />
+      </main>
     </>
   )
 }
