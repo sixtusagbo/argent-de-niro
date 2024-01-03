@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""This module contains User views"""
+"""This module contains Users views"""
 from datetime import datetime
 import json
 from flask import Response, abort, jsonify, request
-from api.models.user import Users
+from api.models.user import User
 from api.v1.auth.auth_middleware import token_required
 from api.v1.auth.passwords import hash_password
 from api.v1.utils import remove_file, save_profile_pic
