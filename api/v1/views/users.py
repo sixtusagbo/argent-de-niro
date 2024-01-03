@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""This module contains Budget views"""
+"""This module contains User views"""
 from datetime import datetime
 import json
 from flask import Response, abort, jsonify, request
