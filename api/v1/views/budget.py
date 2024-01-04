@@ -12,43 +12,46 @@ from api.v1.views import app_views
 
 
 @app_views.route("/budgets", methods=["POST"])
-def create_budget() -> Response:
+@token_required
+def create_budget(current_user: User) -> Response:
     """POST /api/v1/budgets
     Form body:
-        - user_id
         - name
         - limit
-        - start_date
+        - start_date (optional)
         - end_date
+        - category_id
     Return:
         - newly created budget in JSON
         - 400 on parameter errors
     """
     payload = request.form
-    if "user_id" not in payload:
-        abort(400, "budget_id is missing")
     if "name" not in payload:
         abort(400, "name is missing")
-    if "limit" not in payload and not isinstance(limit, int):
+    if "limit" not in payload:
         abort(400, "limit is missing or invalid")
     if "end_date" not in payload:
-        abort(400, "start_date is missing")
+        abort(400, "end_date is missing")
+    if "category_id" not in payload:
+        abort(400, "category_id is missing")
     name = payload.get('name')
     existing_budget = Budget.objects(name=name).first()
     if existing_budget is not None:
         abort(400, "Budget with name: {} already exists".format(name))
     try:
         budget = Budget()
-        budget.user_id = payload.get("user_id")
-        budget.limit = payload.get("limit")
+        budget.user_id = current_user.id
+        budget.limit = int(payload.get("limit"))
         budget.name = name
         budget.start_date = datetime.fromisoformat(
-            payload.get('start_date')
+            payload.get('start_date', datetime.utcnow().isoformat())
         ).date()
         budget.end_date = datetime.fromisoformat(
             payload.get('end_date')
         ).date()
+        budget.category_id = payload.get('category_id')
         budget.save()
+        
 
         result = json.loads(budget.to_json())
         result['id'] = result['_id']['$oid']

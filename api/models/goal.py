@@ -27,3 +27,8 @@ class Goal(Document):
     desired_date = DateField(required=True)
     start_date = DateField(default=datetime.utcnow())
     status = EnumField(GoalStatus, default=GoalStatus.ACTIVE)
+
+    meta = {
+        'db_alias': 'core',
+        'collection': 'goals',
+    }

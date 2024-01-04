@@ -29,3 +29,8 @@ class Transaction(Document):
     amount = DecimalField(required=True)
     date = DateTimeField(default=datetime.utcnow())
     description = StringField()
+    
+    meta = {
+        'db_alias': 'core',
+        'collection': 'transactions',
+    }
