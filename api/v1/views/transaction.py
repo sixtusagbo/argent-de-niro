@@ -53,3 +53,17 @@ def get_transactions(current_user: User) -> Response:
     """
     transactions = Transaction.objects(user_id=current_user.id)
     return jsonify(json.loads(transactions.to_json()))
+
+
+@app_views.route("/transactions/<transaction_id>", methods=["GET"])
+@token_required
+def get_transaction(current_user: User, transaction_id: str) -> Response:
+    """GET /api/v1/transactions/<transaction_id>
+    Retrieve a single transaction
+    """
+    transaction = Transaction.objects(id=transaction_id).first()
+    if transaction is None:
+        abort(404)
+    if transaction.user_id != current_user.id:
+        abort(403)
+    return jsonify(json.loads(transaction.to_json()))
