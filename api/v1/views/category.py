@@ -34,3 +34,15 @@ def create_category(_) -> Response:
         return jsonify(result), 201
     except Exception as e:
         abort(400, "Problem creating category: {}".format(e))
+
+
+@app_views.route("/categories", methods=["GET"])
+@token_required
+def get_categories(_) -> Response:
+    """GET /api/v1/categories
+    Return:
+        - all categories in JSON
+    """
+    categories = Category.objects()
+    result = json.loads(categories.to_json())
+    return jsonify(result)
