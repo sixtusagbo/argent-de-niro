@@ -5,7 +5,7 @@ import json
 from flask import Response, abort, jsonify, request
 from api.models.budget import Budget
 from api.models.user import User
-from api.v1.auth.auth_middleware import token_required
+from api.v1.auth.middleware import token_required
 from api.v1.auth.passwords import hash_password
 from api.v1.views import app_views
 
@@ -33,7 +33,7 @@ def create_budget(current_user: User) -> Response:
         abort(400, "end_date is missing")
     if "category_id" not in payload:
         abort(400, "category_id is missing")
-    name = payload.get('name')
+    name = payload.get("name")
     existing_budget = Budget.objects(name=name).first()
     if existing_budget is not None:
         abort(400, "Budget with name: {} already exists".format(name))
@@ -43,12 +43,10 @@ def create_budget(current_user: User) -> Response:
         budget.limit = payload.get("limit")
         budget.name = name
         budget.start_date = datetime.fromisoformat(
-            payload.get('start_date', datetime.utcnow().isoformat())
+            payload.get("start_date", datetime.utcnow().isoformat())
         ).date()
-        budget.end_date = datetime.fromisoformat(
-            payload.get('end_date')
-        ).date()
-        budget.category_id = payload.get('category_id')
+        budget.end_date = datetime.fromisoformat(payload.get("end_date")).date()
+        budget.category_id = payload.get("category_id")
         budget.save()
 
         result = json.loads(budget.to_json())
@@ -139,13 +137,9 @@ def update_budget(current_user: User, budget_id: str = None) -> Response:
         if "password" in payload:
             budget.password = hash_password(payload.get("password"))
         if "start_date" in payload:
-            budget.birth_date = datetime.fromisoformat(
-                payload.get("start_date")
-            ).date()
+            budget.birth_date = datetime.fromisoformat(payload.get("start_date")).date()
         if "start_date" in payload:
-            budget.birth_date = datetime.fromisoformat(
-                payload.get("start_date")
-            ).date()
+            budget.birth_date = datetime.fromisoformat(payload.get("start_date")).date()
 
         budget.save()
     except Exception as e:
@@ -165,7 +159,7 @@ def delete_budget(current_user: User, budget_id: str = None) -> Response:
         - budget_id
     Return:
         - Empty json with status 200
-   """
+    """
     if budget_id is None:
         abort(404)
     budget = Budget.objects(id=budget_id).first()

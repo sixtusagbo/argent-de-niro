@@ -6,7 +6,7 @@ import json
 from flask import Response, abort, current_app, jsonify, request
 import jwt
 from api.models.user import User
-from api.v1.auth.auth_middleware import token_required
+from api.v1.auth.middleware import token_required
 from api.v1.auth.passwords import is_valid
 from api.v1.views import app_views
 
@@ -28,35 +28,35 @@ def login():
     user = User.objects(email=payload["email"]).first()
     if not user:
         abort(400, "Invalid email")
-    if not is_valid(user.password, payload['password']):
-        abort(400, 'Incorrect password')
+    if not is_valid(user.password, payload["password"]):
+        abort(400, "Incorrect password")
     access_expiration = datetime.utcnow() + timedelta(hours=1)
     result = {}
-    secret = current_app.config['SECRET_KEY']
+    secret = current_app.config["SECRET_KEY"]
     access_token = jwt.encode(
         {
-            'email': user.email,
-            'exp': access_expiration,
+            "email": user.email,
+            "exp": access_expiration,
         },
         secret,
-        algorithm='HS256',
+        algorithm="HS256",
     )
-    result['access_token'] = access_token.decode('utf-8')
+    result["access_token"] = access_token.decode("utf-8")
     refresh_expiration = datetime.utcnow() + timedelta(days=1)
     refresh_token = jwt.encode(
         {
-            'email': user.email,
-            'exp': refresh_expiration,
+            "email": user.email,
+            "exp": refresh_expiration,
         },
         secret,
-        algorithm='HS256',
+        algorithm="HS256",
     )
-    result['user'] = json.loads(user.to_json())
+    result["user"] = json.loads(user.to_json())
 
     response = jsonify(result)
     response.set_cookie(
-        'refresh_token',
-        refresh_token.decode('utf-8'),
+        "refresh_token",
+        refresh_token.decode("utf-8"),
         max_age=timedelta(days=1),
         httponly=True,
     )
@@ -69,50 +69,50 @@ def refresh_token():
     Return:
         - New access token
     """
-    refresh_token = request.cookies.get('refresh_token')
+    refresh_token = request.cookies.get("refresh_token")
     print(refresh_token)
     if not refresh_token:
         abort(400, "No refresh token")
     try:
         data = jwt.decode(
             refresh_token,
-            current_app.config['SECRET_KEY'],
-            algorithms=['HS256'],
+            current_app.config["SECRET_KEY"],
+            algorithms=["HS256"],
         )
-        current_user = User.objects(email=data['email']).first()
+        current_user = User.objects(email=data["email"]).first()
         if current_user is None:
             abort(401)
         access_expiration = datetime.utcnow() + timedelta(hours=1)
         result = {}
-        secret = current_app.config['SECRET_KEY']
+        secret = current_app.config["SECRET_KEY"]
         access_token = jwt.encode(
             {
-                'email': current_user.email,
-                'exp': access_expiration,
+                "email": current_user.email,
+                "exp": access_expiration,
             },
             secret,
         )
-        result['access_token'] = access_token.decode('utf-8')
+        result["access_token"] = access_token.decode("utf-8")
         refresh_expiration = datetime.utcnow() + timedelta(days=1)
         refresh_token = jwt.encode(
             {
-                'email': current_user.email,
-                'exp': refresh_expiration,
+                "email": current_user.email,
+                "exp": refresh_expiration,
             },
             secret,
         )
         response = jsonify(result)
         response.set_cookie(
-            'refresh_token',
-            refresh_token.decode('utf-8'),
+            "refresh_token",
+            refresh_token.decode("utf-8"),
             max_age=timedelta(days=1),
             httponly=True,
         )
         return response
     except jwt.ExpiredSignatureError:
-        abort(400, 'Expired token')
+        abort(400, "Expired token")
     except jwt.InvalidTokenError:
-        abort(400, 'Invalid token')
+        abort(400, "Invalid token")
     except Exception:
         abort(401)
 
