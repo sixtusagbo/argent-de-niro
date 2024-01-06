@@ -5,7 +5,7 @@ import json
 from flask import Response, abort, jsonify, request
 from api.models.budget import Budget
 from api.models.user import User
-from api.v1.auth.middleware import token_required
+from api.v1.auth.auth_middleware import token_required
 from api.v1.auth.passwords import hash_password
 from api.v1.views import app_views
 from api.models.transaction import Transaction
@@ -46,9 +46,7 @@ def create_budget(current_user: User) -> Response:
         budget.start_date = datetime.fromisoformat(
             payload.get("start_date", datetime.utcnow().isoformat())
         ).date()
-        budget.end_date = datetime.fromisoformat(
-            payload.get("end_date")
-        ).date()
+        budget.end_date = datetime.fromisoformat(payload.get("end_date")).date()
         budget.category_id = payload.get("category_id")
         budget.save()
 
@@ -56,6 +54,7 @@ def create_budget(current_user: User) -> Response:
 
         return jsonify(result), 201
     except Exception as e:
+        print(e)
         abort(400, "Problem creating budget: {}".format(e))
 
 
@@ -142,14 +141,12 @@ def update_budget(current_user: User, budget_id: str = None) -> Response:
             if Transaction.objects(budget_id=budget_id).count() > 0:
                 abort(400, "Cannot update limit on budget with transactions")
             budget.limit = payload.get("limit")
+        if "start_date" in payload:
+            budget.start_date = datetime.fromisoformat(payload.get("start_date")).date()
         if "end_date" in payload:
             budget.end_date = datetime.fromisoformat(payload.get("end_date")).date()
         if "category_id" in payload:
             budget.category_id = payload.get("category_id")
-        if "start_date" in payload:
-            budget.birth_date = datetime.fromisoformat(
-                payload.get("start_date")
-            ).date()
 
         budget.save()
     except Exception as e:

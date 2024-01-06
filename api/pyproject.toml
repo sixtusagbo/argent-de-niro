@@ -1,5 +1,0 @@
-[tool.ruff]
-line-length = 79
-ignore = ["E402", "F403"]
-[tool.black]
-line-length = 79
