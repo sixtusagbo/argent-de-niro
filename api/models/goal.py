@@ -11,6 +11,7 @@ from mongoengine import (
     StringField,
 )
 from bson import json_util
+import json
 
 
 class GoalStatus(Enum):
@@ -47,3 +48,7 @@ class Goal(Document):
         data["desired_date"] = data["desired_date"].isoformat()
 
         return json_util.dumps(data)
+
+    def to_dict(self):
+        """Converts this model to a python dictionary"""
+        return json.loads(self.to_json())

@@ -9,6 +9,7 @@ from mongoengine import (
     StringField,
 )
 from bson import json_util
+import json
 
 
 class Budget(Document):
@@ -41,3 +42,7 @@ class Budget(Document):
         data["end_date"] = data["end_date"].isoformat()
 
         return json_util.dumps(data)  # Convert to JSON
+
+    def to_dict(self):
+        """Converts this model to a python dictionary"""
+        return json.loads(self.to_json())

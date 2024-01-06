@@ -11,6 +11,7 @@ from mongoengine import (
 )
 from enum import Enum
 from bson import json_util
+import json
 
 
 class TransactionType(Enum):
@@ -51,3 +52,7 @@ class Transaction(Document):
             data["date"] = data["date"].isoformat()
 
         return json_util.dumps(data)
+
+    def to_dict(self):
+        """Converts this model to a python dictionary"""
+        return json.loads(self.to_json())

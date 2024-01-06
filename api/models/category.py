@@ -2,6 +2,7 @@
 """Categories model"""
 from mongoengine import Document, StringField
 from bson import json_util
+import json
 
 
 class Category(Document):
@@ -21,3 +22,7 @@ class Category(Document):
         del data["_id"]
 
         return json_util.dumps(data)
+
+    def to_dict(self):
+        """Converts this model to a python dictionary"""
+        return json.loads(self.to_json())
