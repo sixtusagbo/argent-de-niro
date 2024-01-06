@@ -49,9 +49,7 @@ def create_user() -> Response:
         user.last_name = payload.get("last_name")
         user.email = email
         user.password = hash_password(payload.get("password"))
-        user.birth_date = datetime.fromisoformat(
-            payload.get("birth_date")
-        ).date()
+        user.birth_date = datetime.fromisoformat(payload.get("birth_date")).date()
         # Setting the optional ones. If missing, defaults to None
         user.country = payload.get("country")
         user.timezone = payload.get("timezone")
@@ -64,13 +62,10 @@ def create_user() -> Response:
         user.save()
 
         result = json.loads(user.to_json())
-        result["id"] = result["_id"]["$oid"]
-        result["birth_date"] = result["birth_date"]["$date"]
-        del result["_id"]
-        del result["password"]
 
         return jsonify(result), 201
     except Exception as e:
+        print(e)
         abort(400, "Problem creating user: {}".format(e))
 
 
@@ -94,13 +89,6 @@ def view_single_user(current_user: User, user_id: str = None) -> Response:
         abort(404)
 
     result = json.loads(user.to_json())
-<<<<<<< HEAD:api/v1/views/users.py
-=======
-    result["id"] = result["_id"]["$oid"]
-    result["birth_date"] = result["birth_date"]["$date"]
-    del result["_id"]
-    del result["password"]
->>>>>>> 36be48cd32517487abb9a1a0ce8436b977c3fbba:api/v1/views/user.py
 
     return jsonify(result)
 
@@ -153,9 +141,7 @@ def update_user(current_user: User, user_id: str = None) -> Response:
         if "password" in payload:
             user.password = hash_password(payload.get("password"))
         if "birth_date" in payload:
-            user.birth_date = datetime.fromisoformat(
-                payload.get("birth_date")
-            ).date()
+            user.birth_date = datetime.fromisoformat(payload.get("birth_date")).date()
         if "country" in payload:
             user.country = payload.get("country")
         if "timezone" in payload:
@@ -179,12 +165,5 @@ def update_user(current_user: User, user_id: str = None) -> Response:
 
     # return updated user
     result = json.loads(user.to_json())
-<<<<<<< HEAD:api/v1/views/users.py
-=======
-    result["id"] = result["_id"]["$oid"]
-    result["birth_date"] = result["birth_date"]["$date"]
-    del result["_id"]
-    del result["password"]
->>>>>>> 36be48cd32517487abb9a1a0ce8436b977c3fbba:api/v1/views/user.py
 
     return jsonify(result)
