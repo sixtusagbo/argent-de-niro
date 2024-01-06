@@ -48,6 +48,18 @@ def get_categories(_) -> Response:
     return jsonify(result)
 
 
+@app_views.route("/categories/names", methods=["GET"])
+@token_required
+def get_category_names(_) -> Response:
+    """GET /api/v1/categories
+    Return:
+        - list of all category names in JSON
+    """
+    categories = Category.objects().only("name")
+    names = [category.name for category in categories]
+    return jsonify(names)
+
+
 @app_views.route("/categories/<category_id>", methods=["PUT"])
 @token_required
 def update_category(_, category_id: str) -> Response:
