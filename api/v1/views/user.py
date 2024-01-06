@@ -4,7 +4,7 @@ from datetime import datetime
 import json
 from flask import Response, abort, jsonify, request
 from api.models.user import User
-from api.v1.auth.auth_middleware import token_required
+from api.v1.auth.middleware import token_required
 from api.v1.auth.passwords import hash_password
 from api.v1.utils import remove_file, save_profile_pic
 from api.v1.views import app_views
@@ -39,7 +39,7 @@ def create_user() -> Response:
         abort(400, "password is missing")
     if "birth_date" not in payload:
         abort(400, "birth_date is missing")
-    email = payload.get('email')
+    email = payload.get("email")
     existing_user = User.objects(email=email).first()
     if existing_user is not None:
         abort(400, "Email: {} already exists".format(email))
@@ -50,24 +50,27 @@ def create_user() -> Response:
         user.email = email
         user.password = hash_password(payload.get("password"))
         user.birth_date = datetime.fromisoformat(
-            payload.get('birth_date')
+            payload.get("birth_date")
         ).date()
         # Setting the optional ones. If missing, defaults to None
         user.country = payload.get("country")
         user.timezone = payload.get("timezone")
         user.currency = payload.get("currency")
-        if request.files['profile_pic'].filename != '':
+        if request.files["profile_pic"].filename != "":
             user.profile_pic = "{}static/profile_images/{}".format(
                 request.host_url,
-                save_profile_pic(request.files['profile_pic']),
+                save_profile_pic(request.files["profile_pic"]),
             )
         user.save()
 
         result = json.loads(user.to_json())
+        result["id"] = result["_id"]["$oid"]
+        result["birth_date"] = result["birth_date"]["$date"]
+        del result["_id"]
+        del result["password"]
 
         return jsonify(result), 201
     except Exception as e:
-        print(e)
         abort(400, "Problem creating user: {}".format(e))
 
 
@@ -83,7 +86,7 @@ def view_single_user(current_user: User, user_id: str = None) -> Response:
     if user_id is None:
         abort(404)
     user = None
-    if user_id == 'me':
+    if user_id == "me":
         user = current_user
     else:
         user = User.objects(id=user_id).first()
@@ -91,6 +94,13 @@ def view_single_user(current_user: User, user_id: str = None) -> Response:
         abort(404)
 
     result = json.loads(user.to_json())
+<<<<<<< HEAD:api/v1/views/users.py
+=======
+    result["id"] = result["_id"]["$oid"]
+    result["birth_date"] = result["birth_date"]["$date"]
+    del result["_id"]
+    del result["password"]
+>>>>>>> 36be48cd32517487abb9a1a0ce8436b977c3fbba:api/v1/views/user.py
 
     return jsonify(result)
 
@@ -121,7 +131,7 @@ def update_user(current_user: User, user_id: str = None) -> Response:
     if user_id is None:
         abort(404)
     user = None
-    if user_id == 'me':
+    if user_id == "me":
         user = current_user
     else:
         try:
@@ -153,14 +163,14 @@ def update_user(current_user: User, user_id: str = None) -> Response:
         if "currency" in payload:
             user.currency = payload.get("currency")
         if (
-            request.files.get('profile_pic') is not None
-            and request.files['profile_pic'].filename != ''
+            request.files.get("profile_pic") is not None
+            and request.files["profile_pic"].filename != ""
         ):
-            old_pic = user.profile_pic.split('/')[-1]
+            old_pic = user.profile_pic.split("/")[-1]
             remove_file(old_pic, "static/profile_images")
             user.profile_pic = "{}static/profile_images/{}".format(
                 request.host_url,
-                save_profile_pic(request.files['profile_pic']),
+                save_profile_pic(request.files["profile_pic"]),
             )
 
         user.save()
@@ -169,5 +179,12 @@ def update_user(current_user: User, user_id: str = None) -> Response:
 
     # return updated user
     result = json.loads(user.to_json())
+<<<<<<< HEAD:api/v1/views/users.py
+=======
+    result["id"] = result["_id"]["$oid"]
+    result["birth_date"] = result["birth_date"]["$date"]
+    del result["_id"]
+    del result["password"]
+>>>>>>> 36be48cd32517487abb9a1a0ce8436b977c3fbba:api/v1/views/user.py
 
     return jsonify(result)
