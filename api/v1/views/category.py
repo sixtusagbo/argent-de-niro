@@ -74,3 +74,21 @@ def update_category(_, category_id: str) -> Response:
         return jsonify(result)
     except Exception as e:
         abort(400, "Problem updating category: {}".format(e))
+
+
+@app_views.route("/categories/<category_id>", methods=["DELETE"])
+@token_required
+def delete_category(_, category_id: str) -> Response:
+    """DELETE /api/v1/categories/<category_id>
+    Return:
+        - empty JSON
+        - 404 if category_id is not found
+    """
+    category = Category.objects(id=category_id).first()
+    if category is None:
+        abort(404)
+    try:
+        category.delete()
+        return jsonify({})
+    except Exception as e:
+        abort(400, "Problem deleting category: {}".format(e))
