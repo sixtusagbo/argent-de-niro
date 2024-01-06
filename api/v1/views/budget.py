@@ -41,7 +41,7 @@ def create_budget(current_user: User) -> Response:
     try:
         budget = Budget()
         budget.user_id = current_user.id
-        budget.limit = int(payload.get("limit"))
+        budget.limit = payload.get("limit")
         budget.name = name
         budget.start_date = datetime.fromisoformat(
             payload.get('start_date', datetime.utcnow().isoformat())
@@ -67,7 +67,7 @@ def create_budget(current_user: User) -> Response:
 
 @app_views.route("/budgets/<budget_id>", methods=["GET"])
 @token_required
-def view_single_budget(budget_id: str = None) -> Response:
+def view_single_budget(current_user: User, budget_id: str = None) -> Response:
     """GET /api/v1/budgets/<budget_id>
     Path params:
         - budget_id
@@ -84,6 +84,7 @@ def view_single_budget(budget_id: str = None) -> Response:
     result = json.loads(budget.to_json())
     result['start_date'] = result['start_date']['$date']
     result['end_date'] = result['end_date']['$date']
+    result['id'] = result['_id']['$oid']
     del result['_id']
 
     return jsonify(result), 200
@@ -91,28 +92,29 @@ def view_single_budget(budget_id: str = None) -> Response:
 
 @app_views.route("/users/<user_id>/budgets", methods=["GET"])
 @token_required
-def view_budgets(budget_id: str = None) -> Response:
-    """GET /api/v1/budgets/<budget_id>
+def view_budgets(current_user: User, user_id: str = None) -> Response:
+    """GET /api/v1/users/<user_id>/budgets
     Gets all budgets related to a particular user
     Path params:
         - user_id
     Return:
         - Budget info in JSON
     """
+    if user_id == "me":
+        user_id = current_user.id
     if user_id is None:
         abort(404)
-    User = None
     user = User.objects(id=user_id).first()
     if user is None:
         abort(404)
     budgets = list(Budget.objects(user_id=user_id))
-    result = json.loads(budgets.to_json())
+    result = [json.loads(budget.to_json()) for budget in budgets]
     return jsonify(result), 200
 
 
 @app_views.route("/budgets/<budget_id>", methods=["PUT"])
 @token_required
-def update_budget(budget_id: str = None) -> Response:
+def update_budget(current_user: User, budget_id: str = None) -> Response:
     """PUT /api/v1/budgets/<budget_id>
     Path params:
         - budget_id
@@ -130,7 +132,6 @@ def update_budget(budget_id: str = None) -> Response:
     # Validate
     if budget_id is None:
         abort(404)
-    budget = None
     try:
         budget = Budget.objects(id=budget_id).first()
     except Exception:
@@ -172,7 +173,7 @@ def update_budget(budget_id: str = None) -> Response:
 
 @app_views.route("/budgets/<budget_id>", methods=["DELETE"])
 @token_required
-def delete_budget(budget_id: str = None) -> Response:
+def delete_budget(current_user: User, budget_id: str = None) -> Response:
     """DELETE /api/v1/budgets/<budget_id>
     Path params:
         - budget_id
@@ -184,5 +185,7 @@ def delete_budget(budget_id: str = None) -> Response:
     budget = Budget.objects(id=budget_id).first()
     if budget is None:
         abort(404)
+    if current_user.id != budget.user_id:
+        abort(403)
     budget.delete()
     return jsonify({}), 200
