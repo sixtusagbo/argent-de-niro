@@ -70,7 +70,7 @@ def refresh_token():
         - New access token
     """
     refresh_token = request.cookies.get("refresh_token")
-    print(refresh_token)
+
     if not refresh_token:
         abort(400, "No refresh token")
     try:

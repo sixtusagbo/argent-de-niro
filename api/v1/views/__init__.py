@@ -12,3 +12,4 @@ from api.v1.views.users import *
 from api.v1.views.budget import *
 from api.v1.views.category import *
 from api.v1.views.transaction import *
+from api.v1.views.goal import *
