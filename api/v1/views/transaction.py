@@ -43,7 +43,7 @@ def create_transaction(current_user: User) -> Response:
         transaction.save()
         return jsonify(json.loads(transaction.to_json())), 201
     except Exception as e:
-        abort(400, e)
+        abort(400, str(e))
 
 
 @app_views.route("/transactions", methods=["GET"])
@@ -116,7 +116,7 @@ def update_transaction(current_user: User, transaction_id: str) -> Response:
         transaction.save()
         return jsonify(json.loads(transaction.to_json()))
     except Exception as e:
-        abort(400, e)
+        abort(400, str(e))
 
 
 @app_views.route("/transactions/<transaction_id>", methods=["DELETE"])
@@ -140,4 +140,4 @@ def delete_transaction(current_user: User, transaction_id: str) -> Response:
         transaction.delete()
         return jsonify({}), 200
     except Exception as e:
-        abort(400, e)
+        abort(400, str(e))
