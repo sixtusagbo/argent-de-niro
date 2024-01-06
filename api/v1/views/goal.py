@@ -108,3 +108,25 @@ def update_goal(current_user: User, goal_id: str) -> Response:
         return jsonify(goal.to_dict())
     except Exception as e:
         abort(400, str(e))
+
+
+@app_views.route("/goals/<goal_id>", methods=["DELETE"])
+@token_required
+def delete_goal(current_user: User, goal_id: str) -> Response:
+    """DELETE /api/v1/goals/<goal_id>
+    Delete a goal by id
+
+    Return:
+        - 200 on success
+        - 400 on error
+    """
+    try:
+        goal = Goal.objects.get(id=goal_id)
+        if not goal:
+            abort(404)
+        if goal.user_id != current_user.id:
+            abort(403)
+        goal.delete()
+        return jsonify({})
+    except Exception as e:
+        abort(400, str(e))
