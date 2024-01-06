@@ -54,7 +54,6 @@ def create_budget(current_user: User) -> Response:
 
         return jsonify(result), 201
     except Exception as e:
-        print(e)
         abort(400, "Problem creating budget: {}".format(e))
 
 
