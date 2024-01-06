@@ -8,6 +8,7 @@ from flask import abort, jsonify, request, Response
 import json
 from bson.objectid import ObjectId
 from datetime import datetime
+from flask import url_for
 
 
 @app_views.route("/transactions", methods=["POST"])
@@ -161,6 +162,11 @@ def search_transactions(current_user: User) -> Response:
         - category_id
         - budget_id
         - goal_id
+        - amount_operator (optional)
+        - sort_order (optional)
+        - sort_by (optional)
+        - page (optional)
+        - per_page (optional)
 
     Return:
       - List of matched transactions in JSON
@@ -210,7 +216,7 @@ def search_transactions(current_user: User) -> Response:
 
     pipeline = [match_stage]
 
-    # Sort stage if sort_order is specified
+    # Sort stage
     sort_order = payload.get("sort_order", "desc")
     sort_by = payload.get("sort_by", "date")
     if sort_by != "amount" and sort_by != "date" and sort_by != "type":
@@ -219,6 +225,18 @@ def search_transactions(current_user: User) -> Response:
         pipeline.append({"$sort": {sort_by: 1}})  # ascending order
     else:
         pipeline.append({"$sort": {sort_by: -1}})  # descending order
+
+    # Count stage
+    count_pipeline = pipeline.copy()
+    count_pipeline.append({"$count": "count"})
+    count_result = list(Transaction.objects.aggregate(*count_pipeline))
+    total_transactions = count_result[0]["count"] if count_result else 0
+
+    # Pagination stage
+    page = int(payload.get("page", 1))
+    per_page = int(payload.get("per_page", 10))
+    pipeline.append({"$skip": (page - 1) * per_page})
+    pipeline.append({"$limit": per_page})
 
     transactions = list(Transaction.objects.aggregate(*pipeline))
     for transaction in transactions:
@@ -230,4 +248,31 @@ def search_transactions(current_user: User) -> Response:
         transaction["goal_id"] = str(transaction["goal_id"])
         transaction["date"] = transaction["date"].isoformat()
 
-    return jsonify(transactions)
+    # Calculate next and prev URLs
+    total_pages = total_transactions // per_page
+    if total_transactions % per_page:
+        total_pages += 1
+    args = request.args.copy()  # Get all query parameters
+    args["page"] = page + 1
+    next_url = (
+        url_for("app_views.search_transactions", _external=True, **args)
+        if page < total_pages
+        else None
+    )
+    args["page"] = page - 1
+    prev_url = (
+        url_for("app_views.search_transactions", _external=True, **args)
+        if page > 1
+        else None
+    )
+
+    result = {
+        "page": page,
+        "total_pages": total_pages,
+        "per_page": per_page,
+        "next": next_url,
+        "prev": prev_url,
+        "transactions": transactions,
+    }
+
+    return jsonify(result)
