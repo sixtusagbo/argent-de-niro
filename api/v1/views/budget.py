@@ -7,7 +7,6 @@ from api.models.budget import Budget
 from api.models.user import User
 from api.v1.auth.auth_middleware import token_required
 from api.v1.auth.passwords import hash_password
-from api.v1.utils import remove_file, save_profile_pic
 from api.v1.views import app_views
 
 
@@ -51,13 +50,8 @@ def create_budget(current_user: User) -> Response:
         ).date()
         budget.category_id = payload.get('category_id')
         budget.save()
-        
 
         result = json.loads(budget.to_json())
-        result['id'] = result['_id']['$oid']
-        result['start_date'] = result['start_date']['$date']
-        result['end_date'] = result['end_date']['$date']
-        del result['_id']
 
         return jsonify(result), 201
     except Exception as e:
@@ -82,10 +76,6 @@ def view_single_budget(current_user: User, budget_id: str = None) -> Response:
         abort(404)
 
     result = json.loads(budget.to_json())
-    result['start_date'] = result['start_date']['$date']
-    result['end_date'] = result['end_date']['$date']
-    result['id'] = result['_id']['$oid']
-    del result['_id']
 
     return jsonify(result), 200
 
@@ -163,10 +153,6 @@ def update_budget(current_user: User, budget_id: str = None) -> Response:
 
     # return updated budget
     result = json.loads(budget.to_json())
-    result['id'] = result['_id']['$oid']
-    result['start_date'] = result['start_date']['$date']
-    result['end_date'] = result['end_date']['$date']
-    del result['_id']
 
     return jsonify(result)
 

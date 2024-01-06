@@ -5,6 +5,7 @@ Index views
 import json
 from flask import Response, jsonify
 from api.models.user import User
+from api.models.budget import Budget
 from api.v1.views import app_views
 
 
@@ -25,6 +26,7 @@ def statistics() -> Response:
     """
     # TODO: List out all collections and a find()
     stats = {}
-    stats["collections"] = 1
+    stats["collections"] = 2
     stats['users'] = [json.loads(u.to_json()) for u in User.objects]
+    stats['budgets'] = [json.loads(u.to_json()) for u in Budget.objects]
     return jsonify(stats)
