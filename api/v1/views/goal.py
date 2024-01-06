@@ -35,7 +35,7 @@ def create_goal(current_user: User) -> Response:
         goal.save()
         return jsonify(goal.to_dict()), 201
     except Exception as e:
-        abort(400, e)
+        abort(400, str(e))
 
 
 @app_views.route("/goals", methods=["GET"])
@@ -52,4 +52,25 @@ def get_goals(current_user: User) -> Response:
         goals = Goal.objects(user_id=current_user.id)
         return jsonify([goal.to_dict() for goal in goals])
     except Exception as e:
-        abort(400, e)
+        abort(400, str(e))
+
+
+@app_views.route("/goals/<goal_id>", methods=["GET"])
+@token_required
+def get_goal(current_user: User, goal_id: str) -> Response:
+    """GET /api/v1/goals/<goal_id>
+    Retrieve a goal by id
+
+    Return:
+        - 200 on success
+        - 400 on error
+    """
+    try:
+        goal = Goal.objects.get(id=goal_id)
+        if not goal:
+            abort(404)
+        if goal.user_id != current_user.id:
+            abort(403)
+        return jsonify(goal.to_dict())
+    except Exception as e:
+        abort(400, str(e))
