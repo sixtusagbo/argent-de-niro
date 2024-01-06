@@ -6,7 +6,6 @@ from flask import Response, abort, jsonify, request
 from api.models.budget import Budget
 from api.models.user import User
 from api.v1.auth.middleware import token_required
-from api.v1.auth.passwords import hash_password
 from api.v1.views import app_views
 from api.models.transaction import Transaction
 
@@ -56,6 +55,7 @@ def create_budget(current_user: User) -> Response:
 
         return jsonify(result), 201
     except Exception as e:
+        print(e)
         abort(400, "Problem creating budget: {}".format(e))
 
 
@@ -74,6 +74,8 @@ def view_single_budget(current_user: User, budget_id: str = None) -> Response:
     budget = Budget.objects(id=budget_id).first()
     if budget is None:
         abort(404)
+    if current_user.id != budget.user_id:
+        abort(403)
 
     result = json.loads(budget.to_json())
 
@@ -109,11 +111,11 @@ def update_budget(current_user: User, budget_id: str = None) -> Response:
     Path params:
         - budget_id
     Form body:
-        - user_id (optional)
         - name (optional)
         - limit (optional)
         - start_date (optional)
         - end_date (optional)
+        - category_id (optional)
     Return:
         - Updated budget in JSON
         - 404 if the budget is not found
@@ -128,6 +130,8 @@ def update_budget(current_user: User, budget_id: str = None) -> Response:
         abort(404)
     if budget is None:
         abort(404)
+    if current_user.id != budget.user_id:
+        abort(403)
     payload = request.form
 
     # Update data
@@ -138,16 +142,16 @@ def update_budget(current_user: User, budget_id: str = None) -> Response:
             if Transaction.objects(budget_id=budget_id).count() > 0:
                 abort(400, "Cannot update limit on budget with transactions")
             budget.limit = payload.get("limit")
-        if "password" in payload:
-            budget.password = hash_password(payload.get("password"))
         if "start_date" in payload:
-            budget.birth_date = datetime.fromisoformat(
+            budget.start_date = datetime.fromisoformat(
                 payload.get("start_date")
             ).date()
-        if "start_date" in payload:
-            budget.birth_date = datetime.fromisoformat(
-                payload.get("start_date")
+        if "end_date" in payload:
+            budget.end_date = datetime.fromisoformat(
+                payload.get("end_date")
             ).date()
+        if "category_id" in payload:
+            budget.category_id = payload.get("category_id")
 
         budget.save()
     except Exception as e:

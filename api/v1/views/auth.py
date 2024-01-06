@@ -52,10 +52,6 @@ def login():
         algorithm="HS256",
     )
     result["user"] = json.loads(user.to_json())
-    result["user"]["id"] = result["user"]["_id"]["$oid"]
-    result["user"]["birth_date"] = result["user"]["birth_date"]["$date"]
-    del result["user"]["_id"]
-    del result["user"]["password"]
 
     response = jsonify(result)
     response.set_cookie(
@@ -74,6 +70,7 @@ def refresh_token():
         - New access token
     """
     refresh_token = request.cookies.get("refresh_token")
+    print(refresh_token)
     if not refresh_token:
         abort(400, "No refresh token")
     try:

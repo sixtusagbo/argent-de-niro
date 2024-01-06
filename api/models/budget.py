@@ -8,6 +8,8 @@ from mongoengine import (
     ObjectIdField,
     StringField,
 )
+from bson import json_util
+import json
 
 
 class Budget(Document):
@@ -25,3 +27,22 @@ class Budget(Document):
         "db_alias": "core",
         "collection": "budgets",
     }
+
+    def to_json(self):
+        """Converts a Budget instance to JSON"""
+        data = self.to_mongo().to_dict()
+        data["id"] = str(data["_id"])  # Convert ObjectId to string
+        del data["_id"]
+        data["category_id"] = str(data["category_id"])
+        data["user_id"] = str(data["user_id"])
+
+        # Convert datetime fields to string
+        if "start_date" in data:
+            data["start_date"] = data["start_date"].isoformat()
+        data["end_date"] = data["end_date"].isoformat()
+
+        return json_util.dumps(data)  # Convert to JSON
+
+    def to_dict(self):
+        """Converts this model to a python dictionary"""
+        return json.loads(self.to_json())

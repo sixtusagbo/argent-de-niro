@@ -10,6 +10,8 @@ from mongoengine import (
     ObjectIdField,
     StringField,
 )
+from bson import json_util
+import json
 
 
 class GoalStatus(Enum):
@@ -32,3 +34,21 @@ class Goal(Document):
         "db_alias": "core",
         "collection": "goals",
     }
+
+    def to_json(self):
+        """Converts a Goal instance to JSON"""
+        data = self.to_mongo().to_dict()
+        data["id"] = str(data["_id"])  # Convert ObjectId to string
+        data["user_id"] = str(data["user_id"])  # Convert ObjectId to string
+        del data["_id"]
+
+        # Convert datetime fields to string
+        if "start_date" in data:
+            data["start_date"] = data["start_date"].isoformat()
+        data["desired_date"] = data["desired_date"].isoformat()
+
+        return json_util.dumps(data)
+
+    def to_dict(self):
+        """Converts this model to a python dictionary"""
+        return json.loads(self.to_json())
