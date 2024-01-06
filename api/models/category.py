@@ -14,7 +14,7 @@ class Category(Document):
         "db_alias": "core",
         "collection": "categories",
     }
-    
+
     def to_json(self):
         """Converts a Category instance to JSON"""
         data = self.to_mongo().to_dict()
