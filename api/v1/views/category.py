@@ -46,3 +46,31 @@ def get_categories(_) -> Response:
     categories = Category.objects()
     result = json.loads(categories.to_json())
     return jsonify(result)
+
+
+@app_views.route("/categories/<category_id>", methods=["PUT"])
+@token_required
+def update_category(_, category_id: str) -> Response:
+    """PUT /api/v1/categories/<category_id>
+    Form body
+        - name
+    Return:
+        - updated category in JSON
+        - 400 on parameter errors
+        - 404 if category_id is not found
+    """
+    payload = request.form
+    if "name" not in payload:
+        abort(400, "name is missing")
+    category = Category.objects(id=category_id).first()
+    if category is None:
+        abort(404)
+    try:
+        category.name = payload.get("name")
+        category.save()
+
+        result = json.loads(category.to_json())
+
+        return jsonify(result)
+    except Exception as e:
+        abort(400, "Problem updating category: {}".format(e))
