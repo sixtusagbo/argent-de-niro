@@ -177,7 +177,18 @@ def search_transactions(current_user: User) -> Response:
     match_stage = {"$match": {"user_id": ObjectId(current_user.id)}}
 
     if amount:
-        match_stage["$match"]["amount"] = float(amount)
+        amount = float(amount)
+        amount_operator = payload.get("amount_operator", "gte")
+        if amount_operator == "gte":
+            match_stage["$match"]["amount"] = {"$gte": amount}
+        elif amount_operator == "lte":
+            match_stage["$match"]["amount"] = {"$lte": amount}
+        elif amount_operator == "gt":
+            match_stage["$match"]["amount"] = {"$gt": amount}
+        elif amount_operator == "lt":
+            match_stage["$match"]["amount"] = {"$lt": amount}
+        else:
+            match_stage["$match"]["amount"] = amount
     if date:
         match_stage["$match"]["date"] = datetime.fromisoformat(date)
     if description:
