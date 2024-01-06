@@ -7,8 +7,8 @@ from api.models.budget import Budget
 from api.models.user import User
 from api.v1.auth.auth_middleware import token_required
 from api.v1.auth.passwords import hash_password
-from api.v1.utils import remove_file, save_profile_pic
 from api.v1.views import app_views
+from api.models.transaction import Transaction
 
 
 @app_views.route("/budgets", methods=["POST"])
@@ -34,7 +34,7 @@ def create_budget(current_user: User) -> Response:
         abort(400, "end_date is missing")
     if "category_id" not in payload:
         abort(400, "category_id is missing")
-    name = payload.get('name')
+    name = payload.get("name")
     existing_budget = Budget.objects(name=name).first()
     if existing_budget is not None:
         abort(400, "Budget with name: {} already exists".format(name))
@@ -44,20 +44,13 @@ def create_budget(current_user: User) -> Response:
         budget.limit = payload.get("limit")
         budget.name = name
         budget.start_date = datetime.fromisoformat(
-            payload.get('start_date', datetime.utcnow().isoformat())
+            payload.get("start_date", datetime.utcnow().isoformat())
         ).date()
-        budget.end_date = datetime.fromisoformat(
-            payload.get('end_date')
-        ).date()
-        budget.category_id = payload.get('category_id')
+        budget.end_date = datetime.fromisoformat(payload.get("end_date")).date()
+        budget.category_id = payload.get("category_id")
         budget.save()
-        
 
         result = json.loads(budget.to_json())
-        result['id'] = result['_id']['$oid']
-        result['start_date'] = result['start_date']['$date']
-        result['end_date'] = result['end_date']['$date']
-        del result['_id']
 
         return jsonify(result), 201
     except Exception as e:
@@ -82,10 +75,6 @@ def view_single_budget(current_user: User, budget_id: str = None) -> Response:
         abort(404)
 
     result = json.loads(budget.to_json())
-    result['start_date'] = result['start_date']['$date']
-    result['end_date'] = result['end_date']['$date']
-    result['id'] = result['_id']['$oid']
-    del result['_id']
 
     return jsonify(result), 200
 
@@ -145,17 +134,15 @@ def update_budget(current_user: User, budget_id: str = None) -> Response:
         if "name" in payload:
             budget.name = payload.get("name")
         if "limit" in payload:
+            if Transaction.objects(budget_id=budget_id).count() > 0:
+                abort(400, "Cannot update limit on budget with transactions")
             budget.limit = payload.get("limit")
         if "password" in payload:
             budget.password = hash_password(payload.get("password"))
         if "start_date" in payload:
-            budget.birth_date = datetime.fromisoformat(
-                payload.get("start_date")
-            ).date()
+            budget.birth_date = datetime.fromisoformat(payload.get("start_date")).date()
         if "start_date" in payload:
-            budget.birth_date = datetime.fromisoformat(
-                payload.get("start_date")
-            ).date()
+            budget.birth_date = datetime.fromisoformat(payload.get("start_date")).date()
 
         budget.save()
     except Exception as e:
@@ -163,10 +150,6 @@ def update_budget(current_user: User, budget_id: str = None) -> Response:
 
     # return updated budget
     result = json.loads(budget.to_json())
-    result['id'] = result['_id']['$oid']
-    result['start_date'] = result['start_date']['$date']
-    result['end_date'] = result['end_date']['$date']
-    del result['_id']
 
     return jsonify(result)
 
@@ -179,7 +162,7 @@ def delete_budget(current_user: User, budget_id: str = None) -> Response:
         - budget_id
     Return:
         - Empty json with status 200
-   """
+    """
     if budget_id is None:
         abort(404)
     budget = Budget.objects(id=budget_id).first()
