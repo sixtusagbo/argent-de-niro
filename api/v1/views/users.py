@@ -64,10 +64,6 @@ def create_user() -> Response:
         user.save()
 
         result = json.loads(user.to_json())
-        result['id'] = result['_id']['$oid']
-        result['birth_date'] = result['birth_date']['$date']
-        del result['_id']
-        del result['password']
 
         return jsonify(result), 201
     except Exception as e:
@@ -95,10 +91,6 @@ def view_single_user(current_user: User, user_id: str = None) -> Response:
         abort(404)
 
     result = json.loads(user.to_json())
-    result['id'] = result['_id']['$oid']
-    result['birth_date'] = result['birth_date']['$date']
-    del result['_id']
-    del result['password']
 
     return jsonify(result)
 
@@ -177,9 +169,5 @@ def update_user(current_user: User, user_id: str = None) -> Response:
 
     # return updated user
     result = json.loads(user.to_json())
-    result['id'] = result['_id']['$oid']
-    result['birth_date'] = result['birth_date']['$date']
-    del result['_id']
-    del result['password']
 
     return jsonify(result)

@@ -6,6 +6,7 @@ from flask import Response, abort, jsonify, request
 from api.models.budget import Budget
 from api.models.user import User
 from api.v1.auth.auth_middleware import token_required
+from api.v1.auth.passwords import hash_password
 from api.v1.views import app_views
 from api.models.transaction import Transaction
 
