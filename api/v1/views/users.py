@@ -49,7 +49,10 @@ def create_user() -> Response:
         user.last_name = payload.get("last_name")
         user.email = email
         user.password = hash_password(payload.get("password"))
-        user.birth_date = datetime.fromisoformat(payload.get("birth_date")).date()
+        user.birth_date = datetime.fromisoformat(
+            payload.get("birth_date")
+        ).date()
+
         # Setting the optional ones. If missing, defaults to None
         user.country = payload.get("country")
         user.timezone = payload.get("timezone")
