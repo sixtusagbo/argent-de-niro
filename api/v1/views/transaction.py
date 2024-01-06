@@ -12,6 +12,7 @@ import json
 @token_required
 def create_transaction(current_user: User) -> Response:
     """POST /api/v1/transactions
+
     Form body:
       - category_id
       - budget_id
@@ -114,5 +115,29 @@ def update_transaction(current_user: User, transaction_id: str) -> Response:
             transaction.description = payload["description"]
         transaction.save()
         return jsonify(json.loads(transaction.to_json()))
+    except Exception as e:
+        abort(400, e)
+
+
+@app_views.route("/transactions/<transaction_id>", methods=["DELETE"])
+@token_required
+def delete_transaction(current_user: User, transaction_id: str) -> Response:
+    """DELETE /api/v1/transactions/<transaction_id>
+    Delete a single transaction
+
+    Return:
+      - 200 on successful delete
+      - 404 if transaction_id is not found
+      - 403 if transaction does not belong to current user
+      - 400 if transaction delete fails
+    """
+    transaction = Transaction.objects(id=transaction_id).first()
+    if transaction is None:
+        abort(404)
+    if transaction.user_id != current_user.id:
+        abort(403)
+    try:
+        transaction.delete()
+        return jsonify({}), 200
     except Exception as e:
         abort(400, e)
