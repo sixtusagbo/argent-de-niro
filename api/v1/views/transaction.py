@@ -6,6 +6,8 @@ from api.models.user import User
 from api.models.transaction import Transaction
 from flask import abort, jsonify, request, Response
 import json
+from bson.objectid import ObjectId
+from datetime import datetime
 
 
 @app_views.route("/transactions", methods=["POST"])
@@ -141,3 +143,68 @@ def delete_transaction(current_user: User, transaction_id: str) -> Response:
         return jsonify({}), 200
     except Exception as e:
         abort(400, str(e))
+
+
+@app_views.route("/transactions/search", methods=["GET"])
+@token_required
+def search_transactions(current_user: User) -> Response:
+    """GET /api/v1/transactions/search
+    Search transactions that belong to a particular user.
+    Search by amount, date, and description, type, category_id, budget_id, goal_id.
+    Category id can be multiple. If multiple, separate by comma
+
+    Query parameters:
+        - amount
+        - date
+        - description
+        - type
+        - category_id
+        - budget_id
+        - goal_id
+
+    Return:
+      - List of matched transactions in JSON
+    """
+    payload = request.args
+    amount = payload.get("amount")
+    date = payload.get("date")
+    description = payload.get("description")
+    type = payload.get("type")
+    category_id = payload.get("category_id")
+    budget_id = payload.get("budget_id")
+    goal_id = payload.get("goal_id")
+
+    match_stage = {"$match": {"user_id": ObjectId(current_user.id)}}
+
+    if amount:
+        match_stage["$match"]["amount"] = float(amount)
+    if date:
+        match_stage["$match"]["date"] = datetime.fromisoformat(date)
+    if description:
+        match_stage["$match"]["description"] = {
+            "$regex": description.lower(),
+            "$options": "i",
+        }
+    if type:
+        if type != "expense" and type != "income":
+            abort(400, "Invalid type")
+        match_stage["$match"]["type"] = type
+    if category_id:
+        category_ids = [ObjectId(id) for id in category_id.split(",")]
+        match_stage["$match"]["category_id"] = {"$in": category_ids}
+    if budget_id:
+        match_stage["$match"]["budget_id"] = ObjectId(budget_id)
+    if goal_id:
+        match_stage["$match"]["goal_id"] = ObjectId(goal_id)
+
+    pipeline = [match_stage]
+    transactions = list(Transaction.objects.aggregate(*pipeline))
+    for transaction in transactions:
+        transaction["id"] = str(transaction["_id"])
+        del transaction["_id"]
+        transaction["user_id"] = str(transaction["user_id"])
+        transaction["category_id"] = str(transaction["category_id"])
+        transaction["budget_id"] = str(transaction["budget_id"])
+        transaction["goal_id"] = str(transaction["goal_id"])
+        transaction["date"] = transaction["date"].isoformat()
+    return jsonify(transactions)
