@@ -2,7 +2,7 @@
 """This module contains Category views"""
 from api.v1.views import app_views
 from api.models.category import Category
-from api.v1.auth.auth_middleware import token_required
+from api.v1.auth.middleware import token_required
 from flask import request, jsonify, abort, Response
 import json
 

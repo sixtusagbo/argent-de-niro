@@ -6,7 +6,7 @@ import json
 from flask import Response, abort, current_app, jsonify, request
 import jwt
 from api.models.user import User
-from api.v1.auth.auth_middleware import token_required
+from api.v1.auth.middleware import token_required
 from api.v1.auth.passwords import is_valid
 from api.v1.views import app_views
 
