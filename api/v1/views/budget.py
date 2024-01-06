@@ -72,6 +72,8 @@ def view_single_budget(current_user: User, budget_id: str = None) -> Response:
     budget = Budget.objects(id=budget_id).first()
     if budget is None:
         abort(404)
+    if current_user.id != budget.user_id:
+        abort(403)
 
     result = json.loads(budget.to_json())
 
