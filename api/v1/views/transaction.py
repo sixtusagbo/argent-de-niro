@@ -4,13 +4,13 @@ from api.v1.views import app_views
 from api.v1.auth.middleware import token_required
 from api.models.user import User
 from api.models.transaction import Transaction
-from flask import abort, jsonify, request
+from flask import abort, jsonify, request, Response
 import json
 
 
 @app_views.route("/transactions", methods=["POST"])
 @token_required
-def create_transaction(current_user: User):
+def create_transaction(current_user: User) -> Response:
     """POST /api/v1/transactions
     Form body:
       - category_id
@@ -43,3 +43,13 @@ def create_transaction(current_user: User):
         return jsonify(json.loads(transaction.to_json())), 201
     except Exception as e:
         abort(400, e)
+
+
+@app_views.route("/transactions", methods=["GET"])
+@token_required
+def get_transactions(current_user: User) -> Response:
+    """GET /api/v1/transactions
+    Retrieve all transactions for the current user
+    """
+    transactions = Transaction.objects(user_id=current_user.id)
+    return jsonify(json.loads(transactions.to_json()))
