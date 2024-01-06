@@ -209,6 +209,17 @@ def search_transactions(current_user: User) -> Response:
         match_stage["$match"]["goal_id"] = ObjectId(goal_id)
 
     pipeline = [match_stage]
+
+    # Sort stage if sort_order is specified
+    sort_order = payload.get("sort_order", "desc")
+    sort_by = payload.get("sort_by", "date")
+    if sort_by != "amount" and sort_by != "date" and sort_by != "type":
+        abort(400, "Invalid sort_by")
+    if sort_order.lower() == "asc":
+        pipeline.append({"$sort": {sort_by: 1}})  # ascending order
+    else:
+        pipeline.append({"$sort": {sort_by: -1}})  # descending order
+
     transactions = list(Transaction.objects.aggregate(*pipeline))
     for transaction in transactions:
         transaction["id"] = str(transaction["_id"])
@@ -218,4 +229,5 @@ def search_transactions(current_user: User) -> Response:
         transaction["budget_id"] = str(transaction["budget_id"])
         transaction["goal_id"] = str(transaction["goal_id"])
         transaction["date"] = transaction["date"].isoformat()
+
     return jsonify(transactions)
