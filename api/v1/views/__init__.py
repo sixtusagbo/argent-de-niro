@@ -11,3 +11,4 @@ from api.v1.views.auth import *
 from api.v1.views.user import *
 from api.v1.views.budget import *
 from api.v1.views.category import *
+from api.v1.views.transaction import *
