@@ -13,8 +13,8 @@ from enum import Enum
 
 
 class TransactionType(Enum):
-    EXPENSE = 'expense'
-    INCOME = 'income'
+    EXPENSE = "expense"
+    INCOME = "income"
 
 
 class Transaction(Document):
@@ -29,8 +29,8 @@ class Transaction(Document):
     amount = DecimalField(required=True)
     date = DateTimeField(default=datetime.utcnow())
     description = StringField()
-    
+
     meta = {
-        'db_alias': 'core',
-        'collection': 'transactions',
+        "db_alias": "core",
+        "collection": "transactions",
     }

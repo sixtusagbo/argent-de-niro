@@ -1,0 +1,4 @@
+[tool.ruff]
+line-length = 79
+[tool.black]
+line-length = 79

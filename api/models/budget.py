@@ -20,8 +20,8 @@ class Budget(Document):
     limit = DecimalField(required=True)
     start_date = DateField(default=datetime.utcnow())
     end_date = DateField(required=True)
-    
+
     meta = {
-        'db_alias': 'core',
-        'collection': 'budgets',
+        "db_alias": "core",
+        "collection": "budgets",
     }

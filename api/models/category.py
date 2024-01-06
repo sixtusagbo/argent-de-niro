@@ -9,6 +9,6 @@ class Category(Document):
     name = StringField(required=True)
 
     meta = {
-        'db_alias': 'core',
-        'collection': 'categories',
+        "db_alias": "core",
+        "collection": "categories",
     }

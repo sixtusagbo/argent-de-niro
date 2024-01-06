@@ -49,7 +49,9 @@ def create_user() -> Response:
         user.last_name = payload.get("last_name")
         user.email = email
         user.password = hash_password(payload.get("password"))
-        user.birth_date = datetime.fromisoformat(payload.get("birth_date")).date()
+        user.birth_date = datetime.fromisoformat(
+            payload.get("birth_date")
+        ).date()
         # Setting the optional ones. If missing, defaults to None
         user.country = payload.get("country")
         user.timezone = payload.get("timezone")
@@ -148,7 +150,9 @@ def update_user(current_user: User, user_id: str = None) -> Response:
         if "password" in payload:
             user.password = hash_password(payload.get("password"))
         if "birth_date" in payload:
-            user.birth_date = datetime.fromisoformat(payload.get("birth_date")).date()
+            user.birth_date = datetime.fromisoformat(
+                payload.get("birth_date")
+            ).date()
         if "country" in payload:
             user.country = payload.get("country")
         if "timezone" in payload:

@@ -13,8 +13,8 @@ from mongoengine import (
 
 
 class GoalStatus(Enum):
-    ACTIVE = 'active'
-    REACHED = 'reached'
+    ACTIVE = "active"
+    REACHED = "reached"
 
 
 class Goal(Document):
@@ -29,6 +29,6 @@ class Goal(Document):
     status = EnumField(GoalStatus, default=GoalStatus.ACTIVE)
 
     meta = {
-        'db_alias': 'core',
-        'collection': 'goals',
+        "db_alias": "core",
+        "collection": "goals",
     }

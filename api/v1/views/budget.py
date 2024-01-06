@@ -46,7 +46,9 @@ def create_budget(current_user: User) -> Response:
         budget.start_date = datetime.fromisoformat(
             payload.get("start_date", datetime.utcnow().isoformat())
         ).date()
-        budget.end_date = datetime.fromisoformat(payload.get("end_date")).date()
+        budget.end_date = datetime.fromisoformat(
+            payload.get("end_date")
+        ).date()
         budget.category_id = payload.get("category_id")
         budget.save()
 
@@ -139,9 +141,13 @@ def update_budget(current_user: User, budget_id: str = None) -> Response:
         if "password" in payload:
             budget.password = hash_password(payload.get("password"))
         if "start_date" in payload:
-            budget.birth_date = datetime.fromisoformat(payload.get("start_date")).date()
+            budget.birth_date = datetime.fromisoformat(
+                payload.get("start_date")
+            ).date()
         if "start_date" in payload:
-            budget.birth_date = datetime.fromisoformat(payload.get("start_date")).date()
+            budget.birth_date = datetime.fromisoformat(
+                payload.get("start_date")
+            ).date()
 
         budget.save()
     except Exception as e:
