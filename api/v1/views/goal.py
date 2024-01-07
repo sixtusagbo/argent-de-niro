@@ -86,6 +86,7 @@ def update_goal(current_user: User, goal_id: str) -> Response:
         - name (optional)
         - target (optional)
         - desired_date (optional)
+        - status (optional)
 
     Return:
         - 200 on success
@@ -104,6 +105,8 @@ def update_goal(current_user: User, goal_id: str) -> Response:
             goal.target = payload["target"]
         if "desired_date" in payload:
             goal.desired_date = payload["desired_date"]
+        if "status" in payload:
+            goal.status = payload["status"]
         goal.save()
         return jsonify(goal.to_dict())
     except Exception as e:

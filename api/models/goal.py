@@ -37,6 +37,9 @@ class Goal(Document):
 
     def to_json(self):
         """Converts a Goal instance to JSON"""
+        if self.desired_date < datetime.utcnow():
+            self.status = GoalStatus.REACHED
+            self.save()
         data = self.to_mongo().to_dict()
         data["id"] = str(data["_id"])  # Convert ObjectId to string
         data["user_id"] = str(data["user_id"])  # Convert ObjectId to string
