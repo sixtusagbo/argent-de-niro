@@ -9,6 +9,7 @@ import json
 from bson.objectid import ObjectId
 from datetime import datetime
 from flask import url_for
+from api.models.goal import Goal
 
 
 @app_views.route("/transactions", methods=["POST"])
@@ -44,6 +45,11 @@ def create_transaction(current_user: User) -> Response:
         transaction = Transaction(**payload)
         transaction.user_id = current_user.id
         transaction.save()
+        goal = Goal(id=transaction.goal_id).first()
+        goal.current_amount += transaction.amount
+        if goal.current >= goal.target:
+            goal.status = "reached"
+        goal.save()
         return jsonify(json.loads(transaction.to_json())), 201
     except Exception as e:
         abort(400, str(e))
