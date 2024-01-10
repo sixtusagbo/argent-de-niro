@@ -3,17 +3,20 @@
  * @component
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import logo from '../assets/logo.svg';
 import Button from './button';
-import nchome from '../assets/nchome.svg';
-import newwallet from '../assets/newwallet.svg';
-import ncdart from '../assets/ncdart.svg';
-import ncgraph from '../assets/ncgraph.svg';
-import home from '../assets/home.svg';
-import walletff from '../assets/walletff.svg';
-import dart from '../assets/dart.svg';
-import graph from '../assets/graph.svg';
+import nchome from '../assets/icons/nchome.svg';
+import newwallet from '../assets/icons/newwallet.svg';
+import ncdart from '../assets/icons/ncdart.svg';
+import ncgraph from '../assets/icons/ncgraph.svg';
+import home from '../assets/icons/home.svg';
+import walletff from '../assets/icons/walletff.svg';
+import dart from '../assets/icons/dart.svg';
+import graph from '../assets/icons/graph.svg';
+import { UilEllipsisH } from '@iconscout/react-unicons';
+import SearchBar from './searchButton';
+import Hamburger from './hamburger';
 
 
 const Menubar = () => {
@@ -21,6 +24,25 @@ const Menubar = () => {
     let black = 'text-black bg-[D9D9D9] text-xl';
 
     const [activeItem, setActiveItem] = useState('home');
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+    const toggleMenu = () => {
+        setIsMenuOpen(!isMenuOpen);
+    };
+
+    useEffect(() => {
+        const handleSize = () => {
+            if (window.innerWidth > 820) {
+                setIsMenuOpen(false);
+            }
+        };
+
+        window.addEventListener('resize', handleSize);
+
+        return () => {
+            window.removeEventListener('resize', handleSize);
+        }
+    })
 
     /**
      * Handles the click event of a menu item.
@@ -34,7 +56,7 @@ const Menubar = () => {
         <menu >
             <section className='bg-[#43534D] w-1/5 max-lg:hidden  h-screen relative'>
                 <img src={logo} alt="logo" className='pt-3' width={80} height={41} />
-                <section className='flex flex-col'>
+                <nav className='flex flex-col'>
                     <ul className="list-none mt-36 mb-12 content-center">
                         <li className={activeItem === 'home' ? 'bg-[#D9D9D9]' : 'bg-[#43534D]'}>
                             <img src={activeItem === 'home' ? home : nchome} alt="home icon" className='inline-block mr-2 ml-5' width={30} height={31} />
@@ -54,11 +76,14 @@ const Menubar = () => {
                         </li>
                     </ul>
                     <Button label="Transaction" intent="transaction" />
-                </section>
+                </nav>
             </section>
-            <section className='bg-zinc-100 max-lg:bg-[#43534D] h-20 max-lg:w-full w-4/5 absolute top-0 right-0'>
+            <section className='bg-zinc-100 max-lg:bg-[#43534D] h-20 max-lg:w-full w-4/5 absolute top-0 right-0 flex flex-row'>
                 <h2 className='p-7 max-lg:text-white'> {activeItem.toUpperCase()} </h2>
+                <SearchBar />
+                <UilEllipsisH size={30} onClick={toggleMenu} className="hidden max-lg:inline-block absolute top-1/2 transform -translate-y-1/2 right-6 text-white" />
             </section>
+            {isMenuOpen && <Hamburger />}
         </menu>
     );
 };
