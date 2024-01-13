@@ -3,7 +3,6 @@
 Authentication routes
 """
 from datetime import datetime, timedelta
-import json
 from flask import Response, abort, current_app, jsonify, request
 import jwt
 from api.models.user import User
@@ -52,7 +51,13 @@ def login():
         secret,
         algorithm="HS256",
     )
-    result["user"] = json.loads(user.to_json())
+    result["user"] = {
+        "id": str(user.id),
+        "first_name": user.first_name,
+        "last_name": user.last_name,
+        "profile_pic": user.profile_pic,
+        "currency": user.currency,
+    }
 
     response = jsonify(result)
     response.set_cookie(
