@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { UilMoneyWithdraw } from '@iconscout/react-unicons';
 import axios from 'axios';
 
 const Home = () => {
@@ -46,22 +47,38 @@ const Home = () => {
                 <p className='font-light mb-1'>Your Goals are within reach, Keep it up!</p>
 
                 <span className='inline-block w-[366px] h-[95px] bg-zinc-300 bg-opacity-30 rounded-[25px] px-2 py-2'>
-                    <article className=''>
-                        <span className='w-[25px] h-6 bg-white rounded-full inline-block mr-10 pt-4'>
-                        </span>
-                        <span className='mb-4'>Save 3000</span>
+                    <article className='flex-col'>
+                        <p className=' '>
+                            <span className='flex items-center'>
+                                <UilMoneyWithdraw className='mr-4' />
+                                Save 3000
+                            </span>
+                        </p>
                     </article>
+                    <p className='ml-72'>3000</p>
+                    <div className="w-[289px] h-2 bg-amber-400 rounded-[15px] ml-6" />
+                    <div className="flex">
+                        <p className="ml-4 text-black">Accumulated 2,000</p>
+                        <p className="text-black font-light ml-10">left 1,000</p>
+                    </div>
                 </span>
-                <span className='inline-block w-[366px] h-[95px] bg-zinc-300 bg-opacity-30 rounded-[25px] ml-8 px-1 py-2'>
-                    <p className=''>
-                        <span className='w-[25px] h-6 bg-white rounded-full inline-block'>
-                        </span>
-                        Save 3000
-                    </p>
+                <span className='inline-block w-[366px] h-[95px] bg-zinc-300 bg-opacity-30 rounded-[25px] ml-8 px-2 py-2'>
+                    <article className='flex-col'>
+                        <p className=''>
+                            <span className='flex items-center'>
+                                <UilMoneyWithdraw className='mr-4' />
+                                Buy MacBook Pro 16
+                            </span>
+                        </p>
+                    </article>
+                    <p className='ml-72'>6000</p>
+                    <div className="w-[289px] h-2 bg-orange-400 rounded-[15px] ml-6" />
+                    <div className="flex">
+                        <p className="ml-4 text-black">Accumulated 2,000</p>
+                        <p className="text-black font-light ml-10">left 4,000</p>
+                    </div>
                 </span>
-
-                <button className='ml-[700px] bg-zinc-300 p-2 rounded-lg text-sm'>Add Goal</button>
-
+                <button className='ml-[700px] mt-2 bg-zinc-300 p-2 rounded-lg text-sm'>Add Goal</button>
             </section>
             <section>
                 <p> My recent transactions</p>
