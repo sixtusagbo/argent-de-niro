@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import Button from '../components/button';
 import { redirect } from 'react-router-dom';
 import ToggleEntry from '../components/toggleEntry';
-import axios from 'axios';
+// import axios from 'axios';
 
 
 const SignupPage = () => {
@@ -15,7 +15,7 @@ const SignupPage = () => {
 
     const onSubmit = async (data) => {
         // try {
-        //     const response = await axios.post('http://localhost:3000/api/signup', {
+        //     const response = await axios.post('http://localhost:3000/api/v1/users', {
         //         fullname: data.fullname,
         //         email: data.email,
         //         password: data.password,
