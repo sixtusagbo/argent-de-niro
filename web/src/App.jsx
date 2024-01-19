@@ -17,12 +17,11 @@ function App() {
 
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<SharedLanding />} >
-          <Route index element={<LandingPage />} />
-          <Route path="login" element={<LoginPage />} />
-          <Route path="signup" element={<SignupPage />} />
-        </Route>
-        <Route path="/dashboard" element={<Dashboard />} >
+        <Route index element={<LandingPage />} />
+        <Route path="login" element={<LoginPage />} />
+        <Route path="signup" element={<SignupPage />} />
+
+        <Route path="dashboard" element={<Dashboard />} >
           <Route index element={<Home />} />
           <Route path="budget" element={<Budget />} />
           <Route path="goals" element={<Goals />} />

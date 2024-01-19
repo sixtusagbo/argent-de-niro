@@ -17,7 +17,7 @@ import graph from '../assets/icons/graph.svg';
 import { UilEllipsisH } from '@iconscout/react-unicons';
 import SearchBar from './searchButton';
 import Hamburger from './hamburger';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const Menubar = () => {
     let white = 'text-white text-xl text-center';
@@ -61,22 +61,22 @@ const Menubar = () => {
                         <li className={activeItem === 'home' ? 'bg-[#D9D9D9]' : 'bg-[#43534D]'}>
                             <img src={activeItem === 'home' ? home : nchome} alt="home icon" className='inline-block mr-2 ml-5' width={30} height={31} />
                             {/* <a href="#home" className={activeItem === 'home' ? black : white} onClick={() => handleItemClick('home')}>Home</a> */}
-                            <NavLink to="dashboard/home" className={activeItem === 'home' ? black : white} onClick={() => handleItemClick('home')}>Home</NavLink>
+                            <Link to="dashboard/home" className={activeItem === 'home' ? black : white} onClick={() => handleItemClick('home')}>Home</Link>
                         </li>
                         <li className={activeItem === 'budget' ? 'bg-[#D9D9D9]' : 'bg-[#43534D]'}>
                             <img src={activeItem === 'budget' ? walletff : newwallet} alt="budget icon" className='inline-block mr-2 ml-5' width={30} height={31} />
                             {/* <a href="#budget" className={activeItem === 'budget' ? black : white} onClick={() => handleItemClick('budget')}>Budget</a> */}
-                            <NavLink to="/budget" className={activeItem === 'budget' ? black : white} onClick={() => handleItemClick('budget')}>Budget</NavLink>
+                            <Link to="dashboard/budget" className={activeItem === 'budget' ? black : white} onClick={() => handleItemClick('budget')}>Budget</Link>
                         </li>
                         <li className={activeItem === 'goals' ? 'bg-[#D9D9D9]' : 'bg-[#43534D]'}>
                             <img src={activeItem === 'goals' ? dart : ncdart} alt="goals icon" className='inline-block mr-2 ml-5' width={30} height={31} />
                             {/* <a href="#goals" className={activeItem === 'goals' ? black : white} onClick={() => handleItemClick('goals')}>Goals</a> */}
-                            <NavLink to="dashboard/goals" className={activeItem === 'goals' ? black : white} onClick={() => handleItemClick('goals')}>Goals</NavLink>
+                            <Link to="dashbard/goals" className={activeItem === 'goals' ? black : white} onClick={() => handleItemClick('goals')}>Goals</Link>
                         </li>
                         <li className={activeItem === 'analytics' ? 'bg-[#D9D9D9]' : 'bg-[#43534D]'}>
                             <img src={activeItem === 'analytics' ? graph : ncgraph} alt="analytics icon" className='inline-block mr-2 ml-5' width={30} height={31} />
                             {/* <a href="#analytics" className={activeItem === 'analytics' ? black : white} onClick={() => handleItemClick('analytics')}>Analytics</a> */}
-                            <NavLink to="dashboard/analytics" className={activeItem === 'analytics' ? black : white} onClick={() => handleItemClick('analytics')}>Analytics</NavLink>
+                            <Link to="dashboard/analytics" className={activeItem === 'analytics' ? black : white} onClick={() => handleItemClick('analytics')}>Analytics</Link>
                         </li>
                     </ul>
                     <Button label="Transaction" intent="transaction" />

@@ -7,22 +7,24 @@ import Button from '../components/button';
 import axios from 'axios';
 
 const LoginPage = () => {
+    const { register, handleSubmit, formState: { errors } } = useForm();
     // Existing code...
 
-    // const onSubmit = async (data) => {
-    //     try {
-    //         const response = await axios.post('http://localhost:5000/api/v1/login', data);
-    //         const userId = response.data.userId; // Assuming the API response contains the user ID
-    //         console.log(userId);
-    //         // Handle the response data here
-    //     } catch (error) {
-    //         console.error(error);
-    //         // Handle the error here
-    //     }
+    const onSubmit = async (data) => {
+        // try {
+        //     const response = await axios.post('http://localhost:5000/api/v1/login', data);
+        //     const userId = response.data.userId; // Assuming the API response contains the user ID
+        //     console.log(userId);
+        //     // Handle the response data here
+        // } catch (error) {
+        //     console.error(error);
+        //     // Handle the error here
+        window.location.href = `/dashboard`;
+    }
 
     return (
         <section className='bg-[#90EB88] h-screen w-full flex items-center place-content-center'>
-            <section className='mb-96 xl:mr-20 mr-2'>
+            <section className='mb-96 mr-20'>
                 <ToggleEntry />
             </section>
 
@@ -41,7 +43,7 @@ const LoginPage = () => {
                                 },
                             })}
                     />
-                    {/* <p className='text-sm ml-3 text-red-600'>{errors.email?.message}</p> */}
+                    <span className='text-sm ml-3 text-red-600'>{errors.email?.message}</span>
                 </label>
                 <label htmlFor='password'>
                     <input
@@ -61,7 +63,7 @@ const LoginPage = () => {
                                 },
                             })}
                     />
-                    {/* <p className='text-sm ml-3 text-red-600'>{errors.password?.message}</p> */}
+                    <span className='text-sm ml-3 text-red-600'>{errors.password?.message}</span>
                 </label>
                 <section className='flex flex-col mx-16 ml-28 sm:ml-32'>
                     <Button intent='welcoming' label='Log in' />
