@@ -9,7 +9,10 @@ export default {
       fontFamily:{
         'name': ['Montserrat Alternates', 'Montserrat', 'sans-serif'],
         'headings': ['Nunito', 'Nunito Sans', 'Varela Round', 'sans-serif'],
-      }
+      },
+      backgroundImage: {
+        'hero': "url('/src/assets/images/landingImage.svg')",
+      },
     },
   },
   plugins: [],

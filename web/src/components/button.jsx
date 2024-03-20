@@ -16,6 +16,7 @@ const Button = ({ label, intent }) => {
     let iconURL;
     let width;
     let margin;
+    let position;
 
     if (intent === 'welcoming') {
         color = 'text-white';
@@ -33,6 +34,7 @@ const Button = ({ label, intent }) => {
         bgColor = 'bg-[#CBFAE8]';
         borderColor = 'border-[#CBFAE8]';
         width = ' w-1/4';
+        position = ' top-0 right-0'
     } else if (intent === 'transaction') {
         color = 'text-black';
         bgColor = 'bg-[#D9D9D9]';
@@ -41,7 +43,7 @@ const Button = ({ label, intent }) => {
         width = ' w-3/4';
     }
     return (
-        <button className={`${color} ${bgColor} ${borderColor} ${width} ${margin} px-2 py-2 rounded-3xl text-center text-lg m-4`}>
+        <button className={`${color} ${bgColor} ${borderColor} ${width} ${margin} ${position} px-2 py-2 rounded-3xl text-center text-lg m-4`}>
             {iconURL}
             {label}
 
