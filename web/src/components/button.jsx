@@ -15,12 +15,15 @@ const Button = ({ label, intent }) => {
     let borderColor;
     let iconURL;
     let width;
+    let margin;
+    let position;
 
     if (intent === 'welcoming') {
         color = 'text-white';
         bgColor = 'bg-[#6564DB]';
         borderColor = 'border-[#6564DB]';
-        width = ' w-1/3';
+        margin = 'ml-0';
+        width = 'w-2/3';
     } else if (intent === 'adding') {
         color = 'text-white';
         bgColor = 'bg-[#191C1B]';
@@ -30,7 +33,8 @@ const Button = ({ label, intent }) => {
         color = 'text-black';
         bgColor = 'bg-[#CBFAE8]';
         borderColor = 'border-[#CBFAE8]';
-        width = ' w-1/2';
+        width = ' w-1/4';
+        position = ' top-0 right-0'
     } else if (intent === 'transaction') {
         color = 'text-black';
         bgColor = 'bg-[#D9D9D9]';
@@ -39,7 +43,7 @@ const Button = ({ label, intent }) => {
         width = ' w-3/4';
     }
     return (
-        <button className={`${color} ${bgColor} ${borderColor} ${width} px-2 py-2 rounded-3xl text-center text-lg m-4`}>
+        <button className={`${color} ${bgColor} ${borderColor} ${width} ${margin} ${position} px-2 py-2 rounded-3xl text-center text-lg m-4`}>
             {iconURL}
             {label}
 
