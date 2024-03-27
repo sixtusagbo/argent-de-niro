@@ -20,14 +20,11 @@ function App() {
         <Route index element={<LandingPage />} />
         <Route path="login" element={<LoginPage />} />
         <Route path="signup" element={<SignupPage />} />
-
-        <Route path="dashboard" element={<Dashboard />} >
-          <Route index element={<Home />} />
-          <Route path="budget" element={<Budget />} />
-          <Route path="goals" element={<Goals />} />
-          <Route path="analytics" element={<Analytics />} />
+        <Route path="home" element={<Home />} />
+        <Route path="budget" element={<Budget />} />
+        <Route path="goals" element={<Goals />} />
+        <Route path="analytics" element={<Analytics />} />
           {/* <Route path="transactions" element={<Transactions />} /> */}
-        </Route>
       </Routes>
     </BrowserRouter >
 

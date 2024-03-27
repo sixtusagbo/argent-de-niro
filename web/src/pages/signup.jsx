@@ -20,6 +20,7 @@ const SignupPage = () => {
         signupFormData.append('last_name', data.surname);
         signupFormData.append('email', data.email);
         signupFormData.append('password', data.password);
+        signupFormData.append('date_of_birth', new Date(data.dateOfBirth).toISOString());
 
         // Check if optional fields are filled out and append them to the form data
         if (data.optionalField1) {
@@ -32,13 +33,13 @@ const SignupPage = () => {
             signupFormData.append('currency', data.currency);
         }
         try {
-            const response = await axios.post('http://localhost:5000/api/v1/users', signupFormData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
-            });
+            // const response = await axios.post('http://localhost:5000/api/v1/users', signupFormData, {
+            //     headers: {
+            //         'Content-Type': 'multipart/form-data',
+            //     },
+            // });
 
-            console.log(response.data);
+            console.log(signupFormData);
             console.log("It went through");
             event.preventDefault();
             // // Redirect to login page
@@ -104,23 +105,23 @@ const SignupPage = () => {
                                     })}
                             />
 
-                            <label htmlFor='dateOfBirth' className='block font-medium leading-6 text-gray-900'>
-                                <input
-                                    type='datetime-local'
-                                    name='dateOfBirth'
-                                    {...register('dateOfBirth',
-                                        {
-                                            required: {
-                                                value: true,
-                                                message: "Date of Birth is required",
-                                            },
-                                        })}
-                                />
-                            </label>
-
                         </label>
                         {/* <span className='hidden sm:inline-block text-sm ml-3 my-0 text-red-600'>{errors.fullname?.message}</span> */}
                     </section>
+                    <label htmlFor='dateOfBirth' className='block font-medium leading-6 '>
+                        <input
+                            className='bg-white rounded-2xl pl-8 pr-8 py-2 my-3 w-full outline-none'
+                            type='date'
+                            name='dateOfBirth'
+                            {...register('dateOfBirth',
+                                {
+                                    required: {
+                                        value: true,
+                                        message: "Date of Birth is required",
+                                    },
+                                })}
+                        />
+                    </label>
 
                     <label htmlFor='email' className='font-medium leading-6 text-gray-900'>
                         <input
@@ -150,6 +151,7 @@ const SignupPage = () => {
                             type='password'
                             name='password'
                             placeholder='Password'
+                            suggested='current-password'
                             {...register('password',
                                 {
                                     required: {

@@ -82,7 +82,7 @@ const Menubar = () => {
                     <Button label="Transaction" intent="transaction" />
                 </nav>
             </section>
-            <section className='bg-zinc-100 max-lg:bg-[#43534D] h-20 max-lg:w-full w-4/5 absolute top-0 right-0 flex flex-row'>
+            <section className='bg-zinc-100 max-lg:bg-[#43534D] h-20 w-full absolute top-0 right-0 flex flex-row'>
                 <h2 className='p-7 max-lg:text-white'> {activeItem.toUpperCase()} </h2>
                 <SearchBar />
                 <UilEllipsisH size={30} onClick={toggleMenu} className="hidden max-lg:inline-block absolute top-1/2 transform -translate-y-1/2 right-6 text-white" />
