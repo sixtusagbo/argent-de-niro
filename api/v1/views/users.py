@@ -64,9 +64,7 @@ def create_user() -> Response:
             )
         user.save()
 
-        result = json.loads(user.to_json())
-
-        return jsonify(result), 201
+        return jsonify({}), 201
     except Exception as e:
         print(e)
         abort(400, "Problem creating user: {}".format(e))
@@ -144,7 +142,9 @@ def update_user(current_user: User, user_id: str = None) -> Response:
         if "password" in payload:
             user.password = hash_password(payload.get("password"))
         if "birth_date" in payload:
-            user.birth_date = datetime.fromisoformat(payload.get("birth_date")).date()
+            user.birth_date = datetime.fromisoformat(
+                payload.get("birth_date")
+            ).date()
         if "country" in payload:
             user.country = payload.get("country")
         if "timezone" in payload:
