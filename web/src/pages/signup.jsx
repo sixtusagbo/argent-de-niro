@@ -83,7 +83,7 @@ const SignupPage = () => {
                                     })}
                             />
                         </label>
-                        {/* <span className='hidden sm:inline-block text-sm ml-3 my-0 text-red-600'>{errors.fullname?.message}</span> */}
+                        <span className='hidden sm:inline-block text-sm ml-3 my-0 text-red-600'>{errors.fullname?.message}</span>
 
 
                         <label htmlFor='surname' className='block font-medium leading-6 text-gray-900'>
@@ -106,7 +106,7 @@ const SignupPage = () => {
                             />
 
                         </label>
-                        {/* <span className='hidden sm:inline-block text-sm ml-3 my-0 text-red-600'>{errors.fullname?.message}</span> */}
+                        <span className='hidden sm:inline-block text-sm ml-3 my-0 text-red-600'>{errors.fullname?.message}</span>
                     </section>
                     <label htmlFor='dateOfBirth' className='block font-medium leading-6 '>
                         <input
@@ -142,7 +142,7 @@ const SignupPage = () => {
                                     },
                                 })}
                         />
-                        {/* <span className='text-sm ml-3 text-red-600'>{errors.email?.message}</span> */}
+                        <span className='text-sm ml-3 text-red-600'>{errors.email?.message}</span>
                     </label>
 
                     <label htmlFor='password' className='font-medium leading-6 text-gray-900'>
@@ -169,7 +169,7 @@ const SignupPage = () => {
                                     },
                                 })}
                         />
-                        {/* <span className='text-sm ml-3 text-red-600'>{errors.password?.message}</span> */}
+                        <span className='text-sm ml-3 text-red-600'>{errors.password?.message}</span>
                     </label>
                     <section className='flex flex-col mx-16 ml-28 sm:ml-48'>
                         <Button intent='welcoming' label='Sign Up' />
