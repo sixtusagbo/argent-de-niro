@@ -15,7 +15,7 @@ class TestCategory(unittest.TestCase):
         test_disconnect()
 
     def setUp(self):
-        self.category = test_category
+        self.category = Category(**test_category)
         self.category.save()
 
     def tearDown(self):

@@ -18,7 +18,7 @@ class TestUser(unittest.TestCase):
         test_disconnect()
 
     def setUp(self):
-        self.user = test_user
+        self.user = User(**test_user)
         self.user.save()
 
     def tearDown(self):

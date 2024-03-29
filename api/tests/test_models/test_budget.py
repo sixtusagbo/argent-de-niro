@@ -18,9 +18,9 @@ class TestBudget(unittest.TestCase):
         test_disconnect()
 
     def setUp(self):
-        self.budget = test_budget
-        self.user = test_user
-        self.category = test_category
+        self.budget = Budget(**test_budget)
+        self.user = User(**test_user)
+        self.category = Category(**test_category)
         self.user.save()
         self.category.save()
         self.budget.user_id = self.user.id
