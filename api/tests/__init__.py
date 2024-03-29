@@ -24,5 +24,5 @@ test_budget = {
 test_goal = {
     "name": "Save for a car",
     "target": 10000.00,
-    "desired_date": datetime.now(),
+    "desired_date": datetime.now().replace(year=datetime.now().year + 1),
 }
