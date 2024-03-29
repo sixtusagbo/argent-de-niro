@@ -26,3 +26,8 @@ test_goal = {
     "target": 10000.00,
     "desired_date": datetime.now().replace(year=datetime.now().year + 1),
 }
+
+test_transaction = {
+    "amount": 50.00,
+    "description": "Groceries",
+}
