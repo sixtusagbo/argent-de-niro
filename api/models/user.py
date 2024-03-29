@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """User model"""
+
 from mongoengine import DateField, Document, StringField
 from bson import json_util
 import json
@@ -30,7 +31,7 @@ class User(Document):
         del data["_id"]
         del data["password"]
 
-        # Convert datetime fields to string
+        # Convert date fields to string
         data["birth_date"] = data["birth_date"].isoformat()
 
         return json_util.dumps(data)
