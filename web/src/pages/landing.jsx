@@ -8,7 +8,13 @@ import Button from '../components/button';
 import { Link } from 'react-router-dom';
 import landingImage from '../assets/images/landingImage.svg';
 
+
 const LandingPage = () => {
+
+    const buttonClick = () => {
+        window.location.href = `/signup`;
+    }
+
     return (
         <section>
             <header className='flex relative items-center bg-neutral-600 justify-between'>
@@ -25,7 +31,7 @@ const LandingPage = () => {
                         </li>
                     </ul>
                 </nav>
-                <button className="px-2 py-2 rounded-3xl text-center text-lg m-4 bg-[#CBFAE8] border-[#CBFAE8] w-1/4  text-black ml-auto"> Sign In</button>
+                <button className="px-2 py-2 rounded-3xl text-center text-lg m-4 bg-[#CBFAE8] border-[#CBFAE8] w-1/4 cursor-pointer text-black ml-auto" onClick={buttonClick}> Sign In</button>
             </header>
             
             <section className="bg-neutral-600 w-full flex xl:flex-row flex-col justify-center min-h-screen gap-10  " id="home">
@@ -40,7 +46,22 @@ const LandingPage = () => {
                 </aside> */}
             </section>
             <section aria-label="How to Use Section" className="how" id="how-to-use">
-                {/* Section 2 */}
+                <article>
+                    <h2>Step 1</h2>
+                    <p>Sign into the platform</p>
+                </article>
+                <article>
+                    <h2>Step 2</h2>
+                    <p>Enter your budget</p>
+                </article>
+                <article>
+                    <h2>Step 3</h2>
+                    <p>Update budget by adding transactions. According to whether it is an income or an expense transaction</p>
+                </article>
+                <article>
+                    <h2>Step 4</h2>
+                    <p>Setup </p>
+                </article>
             </section>
             <section aria-label="About Us Section" className="about" id="about-us">
                 {/* Section 3 */}
