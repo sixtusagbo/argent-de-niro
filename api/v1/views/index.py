@@ -2,8 +2,10 @@
 """
 Index views
 """
+
 import json
 from flask import Response, jsonify
+from api.models import db_status
 from api.models.user import User
 from api.models.budget import Budget
 from api.v1.views import app_views
@@ -18,6 +20,11 @@ def status() -> Response:
     Return:
         - the status of the API
     """
+    # Check if MongoDB is running
+    if not db_status():
+        return jsonify(
+            {"status": "Error", "error": "Database is not running"}
+        ), 500
     return jsonify({"status": "OK"})
 
 
@@ -33,5 +40,4 @@ def statistics() -> Response:
     stats["categories"] = [c.to_dict() for c in Category.objects]
     stats["goals"] = [g.to_dict() for g in Goal.objects]
     stats["transactions"] = [t.to_dict() for t in Transaction.objects]
-    stats["total_collections"] = len(stats.keys())
     return jsonify(stats)
