@@ -32,7 +32,7 @@ class User(Document):
         del data["_id"]
         del data["password"]
 
-        # Convert datetime fields to string
+        # Convert date fields to string
         data["birth_date"] = data["birth_date"].isoformat()
 
         return json_util.dumps(data)

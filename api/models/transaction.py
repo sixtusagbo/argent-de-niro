@@ -30,7 +30,7 @@ class Transaction(Document):
 
     type = EnumField(TransactionType, default=TransactionType.EXPENSE)
     amount = DecimalField(required=True)
-    date = DateTimeField(default=datetime.utcnow())
+    date = DateTimeField(default=datetime.now())
     description = StringField()
 
     meta = {
@@ -51,7 +51,7 @@ class Transaction(Document):
         if "goal_id" in data:
             data["goal_id"] = str(data["goal_id"])
 
-        # Convert datetime fields to string
+        # Convert datetime field to string
         if "date" in data:
             data["date"] = data["date"].isoformat()
 

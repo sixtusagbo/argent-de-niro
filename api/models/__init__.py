@@ -3,6 +3,7 @@
 
 from mongoengine import register_connection
 import mongomock
+from api.models.user import User
 
 
 def init_db():
@@ -28,3 +29,12 @@ def test_disconnect():
     from mongoengine import disconnect
 
     disconnect()
+
+
+def db_status():
+    """Check the status of the database"""
+    try:
+        User.objects.first()
+    except Exception:
+        return False
+    return True

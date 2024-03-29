@@ -29,7 +29,7 @@ class Goal(Document):
     target = DecimalField(required=True)
     current = DecimalField(default=0.00)
     desired_date = DateField(required=True)
-    start_date = DateField(default=datetime.utcnow())
+    start_date = DateField(default=datetime.now())
     status = EnumField(GoalStatus, default=GoalStatus.ACTIVE)
 
     meta = {
@@ -50,7 +50,7 @@ class Goal(Document):
         data["user_id"] = str(data["user_id"])  # Convert ObjectId to string
         del data["_id"]
 
-        # Convert datetime fields to string
+        # Convert date fields to string
         if "start_date" in data:
             data["start_date"] = data["start_date"].isoformat()
         data["desired_date"] = data["desired_date"].isoformat()
