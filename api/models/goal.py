@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Goal model"""
+
 from datetime import datetime
 from enum import Enum
 from mongoengine import (
@@ -23,6 +24,7 @@ class Goal(Document):
     """Define a user's Goal"""
 
     user_id = ObjectIdField(required=True)
+
     name = StringField(required=True)
     target = DecimalField(required=True)
     current = DecimalField(default=0.00)
@@ -37,7 +39,10 @@ class Goal(Document):
 
     def to_json(self):
         """Converts a Goal instance to JSON"""
-        if self.desired_date < datetime.utcnow():
+        if (
+            self.desired_date <= datetime.now().date()
+            and self.status == GoalStatus.ACTIVE
+        ):
             self.status = GoalStatus.REACHED
             self.save()
         data = self.to_mongo().to_dict()
