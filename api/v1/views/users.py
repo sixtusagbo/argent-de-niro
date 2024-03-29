@@ -51,9 +51,12 @@ def create_user() -> Response:
         user.last_name = payload.get("last_name")
         user.email = email
         user.password = hash_password(payload.get("password"))
-        user.birth_date = datetime.strptime(
-            payload.get("birth_date"), TIMESTAMP_FMT
-        ).date()
+        try:
+            user.birth_date = datetime.strptime(
+                payload.get("birth_date"), TIMESTAMP_FMT
+            ).date()
+        except Exception:
+            abort(400, "Invalid birth_date format")
 
         # Setting the optional ones. If missing, defaults to None
         user.country = payload.get("country")
@@ -150,9 +153,12 @@ def update_user(current_user: User, user_id: str = None) -> Response:
         if "password" in payload:
             user.password = hash_password(payload.get("password"))
         if "birth_date" in payload:
-            user.birth_date = datetime.strptime(
-                payload.get("birth_date"), TIMESTAMP_FMT
-            ).date()
+            try:
+                user.birth_date = datetime.strptime(
+                    payload.get("birth_date"), TIMESTAMP_FMT
+                ).date()
+            except Exception:
+                abort(400, "Invalid birth_date format")
         if "country" in payload:
             user.country = payload.get("country")
         if "timezone" in payload:
