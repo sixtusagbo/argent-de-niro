@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 """Transaction view"""
+
+from api.v1.utils import TIMESTAMP_FMT
 from api.v1.views import app_views
 from api.v1.auth.middleware import token_required
 from api.models.user import User
@@ -202,7 +204,9 @@ def search_transactions(current_user: User) -> Response:
         else:
             match_stage["$match"]["amount"] = amount
     if date:
-        match_stage["$match"]["date"] = datetime.fromisoformat(date)
+        match_stage["$match"]["date"] = datetime.strptime(
+            date, TIMESTAMP_FMT
+        ).date()
     if description:
         match_stage["$match"]["description"] = {
             "$regex": description.lower(),

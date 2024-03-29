@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """This module contains Users views"""
+
 from datetime import datetime
 import json
 from flask import Response, abort, jsonify, request
@@ -8,6 +9,7 @@ from api.v1.auth.middleware import token_required
 from api.v1.auth.passwords import hash_password
 from api.v1.utils import remove_file, save_profile_pic
 from api.v1.views import app_views
+from utils import TIMESTAMP_FMT
 
 
 @app_views.route("/users", methods=["POST"])
@@ -49,15 +51,21 @@ def create_user() -> Response:
         user.last_name = payload.get("last_name")
         user.email = email
         user.password = hash_password(payload.get("password"))
-        user.birth_date = datetime.fromisoformat(
-            payload.get("birth_date")
+        user.birth_date = datetime.strptime(
+            payload.get("birth_date"), TIMESTAMP_FMT
         ).date()
 
         # Setting the optional ones. If missing, defaults to None
         user.country = payload.get("country")
         user.timezone = payload.get("timezone")
         user.currency = payload.get("currency")
-        if request.files["profile_pic"].filename != "":
+        # Check whether a file was passed
+        file_exists = len(request.files) > 0
+        profile_pic_exists = (
+            request.files.get("profile_pic") is not None
+            and request.files["profile_pic"].filename != ""
+        )
+        if file_exists and profile_pic_exists:
             user.profile_pic = "{}static/profile_images/{}".format(
                 request.host_url,
                 save_profile_pic(request.files["profile_pic"]),
@@ -67,7 +75,7 @@ def create_user() -> Response:
         return jsonify({}), 201
     except Exception as e:
         print(e)
-        abort(400, "Problem creating user: {}".format(e))
+        abort(400, "Error: {}".format(e))
 
 
 @app_views.route("/users/<user_id>", methods=["GET"])
@@ -142,8 +150,8 @@ def update_user(current_user: User, user_id: str = None) -> Response:
         if "password" in payload:
             user.password = hash_password(payload.get("password"))
         if "birth_date" in payload:
-            user.birth_date = datetime.fromisoformat(
-                payload.get("birth_date")
+            user.birth_date = datetime.strptime(
+                payload.get("birth_date"), TIMESTAMP_FMT
             ).date()
         if "country" in payload:
             user.country = payload.get("country")
@@ -151,10 +159,12 @@ def update_user(current_user: User, user_id: str = None) -> Response:
             user.timezone = payload.get("timezone")
         if "currency" in payload:
             user.currency = payload.get("currency")
-        if (
+        file_exists = len(request.files) > 0
+        profile_pic_exists = (
             request.files.get("profile_pic") is not None
             and request.files["profile_pic"].filename != ""
-        ):
+        )
+        if file_exists and profile_pic_exists:
             old_pic = user.profile_pic.split("/")[-1]
             remove_file(old_pic, "static/profile_images")
             user.profile_pic = "{}static/profile_images/{}".format(
