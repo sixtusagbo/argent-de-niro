@@ -27,10 +27,9 @@ class User(Document):
     def to_json(self):
         """Converts a User instance to JSON"""
         data = self.to_mongo().to_dict()
-        if "_id" in data:
-            # Convert ObjectId to string
-            data["id"] = str(data["_id"])
-            del data["_id"]
+        # Convert ObjectId to string
+        data["id"] = str(data["_id"])
+        del data["_id"]
         del data["password"]
 
         # Convert datetime fields to string

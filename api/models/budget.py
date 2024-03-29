@@ -32,9 +32,8 @@ class Budget(Document):
     def to_json(self):
         """Converts a Budget instance to JSON"""
         data = self.to_mongo().to_dict()
-        if "_id" in data:
-            data["id"] = str(data["_id"])
-            del data["_id"]
+        data["id"] = str(data["_id"])
+        del data["_id"]
         data["category_id"] = str(data["category_id"])
         data["user_id"] = str(data["user_id"])
 
