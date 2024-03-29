@@ -19,6 +19,7 @@ def test_connect():
         host="mongodb://localhost",
         mongo_client_class=mongomock.MongoClient,
         alias="core",
+        uuidRepresentation="standard",
     )
 
 
