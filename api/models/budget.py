@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Budget model"""
+
 from datetime import datetime
 from mongoengine import (
     DateField,
@@ -20,7 +21,7 @@ class Budget(Document):
 
     name = StringField(required=True)
     limit = DecimalField(required=True)
-    start_date = DateField(default=datetime.utcnow())
+    start_date = DateField(default=datetime.now())
     end_date = DateField(required=True)
 
     meta = {
@@ -31,12 +32,12 @@ class Budget(Document):
     def to_json(self):
         """Converts a Budget instance to JSON"""
         data = self.to_mongo().to_dict()
-        data["id"] = str(data["_id"])  # Convert ObjectId to string
+        data["id"] = str(data["_id"])
         del data["_id"]
         data["category_id"] = str(data["category_id"])
         data["user_id"] = str(data["user_id"])
 
-        # Convert datetime fields to string
+        # Convert date fields to string
         if "start_date" in data:
             data["start_date"] = data["start_date"].isoformat()
         data["end_date"] = data["end_date"].isoformat()

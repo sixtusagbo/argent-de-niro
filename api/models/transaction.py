@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Transaction model"""
+
 from datetime import datetime
 from mongoengine import (
     DateTimeField,
@@ -29,7 +30,7 @@ class Transaction(Document):
 
     type = EnumField(TransactionType, default=TransactionType.EXPENSE)
     amount = DecimalField(required=True)
-    date = DateTimeField(default=datetime.utcnow())
+    date = DateTimeField(default=datetime.now())
     description = StringField()
 
     meta = {
@@ -43,11 +44,14 @@ class Transaction(Document):
         data["id"] = str(data["_id"])
         del data["_id"]
         data["user_id"] = str(data["user_id"])
-        data["category_id"] = str(data["category_id"])
-        data["budget_id"] = str(data["budget_id"])
-        data["goal_id"] = str(data["goal_id"])
+        if "category_id" in data:
+            data["category_id"] = str(data["category_id"])
+        if "budget_id" in data:
+            data["budget_id"] = str(data["budget_id"])
+        if "goal_id" in data:
+            data["goal_id"] = str(data["goal_id"])
 
-        # Convert datetime fields to string
+        # Convert datetime field to string
         if "date" in data:
             data["date"] = data["date"].isoformat()
 
