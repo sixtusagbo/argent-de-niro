@@ -14,6 +14,7 @@ app.config['SECRET_KEY'] = getenv('ADN_SECRET_KEY', 'foobar')
 app.url_map.strict_slashes = False
 app.register_blueprint(app_views)
 CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
+CORS_ORIGIN_ALLOW_ALL = True
 init_db()
 
 
