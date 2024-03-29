@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """This module contains Budgets views"""
+
 from datetime import datetime
 import json
 from flask import Response, abort, jsonify, request
@@ -8,6 +9,7 @@ from api.models.user import User
 from api.v1.auth.middleware import token_required
 from api.v1.views import app_views
 from api.models.transaction import Transaction
+from utils import TIMESTAMP_FMT
 
 
 @app_views.route("/budgets", methods=["POST"])
@@ -42,12 +44,20 @@ def create_budget(current_user: User) -> Response:
         budget.user_id = current_user.id
         budget.limit = payload.get("limit")
         budget.name = name
-        budget.start_date = datetime.fromisoformat(
-            payload.get("start_date", datetime.utcnow().isoformat())
-        ).date()
-        budget.end_date = datetime.fromisoformat(
-            payload.get("end_date")
-        ).date()
+        if "start_date" in payload:
+            try:
+                budget.start_date = datetime.strptime(
+                    payload.get("start_date"), TIMESTAMP_FMT
+                ).date()
+            except Exception:
+                abort(400, "Invalid start_date format")
+        if "end_date" in payload:
+            try:
+                budget.end_date = datetime.strptime(
+                    payload.get("end_date"), TIMESTAMP_FMT
+                ).date()
+            except Exception:
+                abort(400, "Invalid end_date format")
         budget.category_id = payload.get("category_id")
         budget.save()
 
@@ -142,13 +152,19 @@ def update_budget(current_user: User, budget_id: str = None) -> Response:
                 abort(400, "Cannot update limit on budget with transactions")
             budget.limit = payload.get("limit")
         if "start_date" in payload:
-            budget.start_date = datetime.fromisoformat(
-                payload.get("start_date")
-            ).date()
+            try:
+                budget.start_date = datetime.strptime(
+                    payload.get("start_date"), TIMESTAMP_FMT
+                ).date()
+            except Exception:
+                abort(400, "Invalid start_date format")
         if "end_date" in payload:
-            budget.end_date = datetime.fromisoformat(
-                payload.get("end_date")
-            ).date()
+            try:
+                budget.end_date = datetime.strptime(
+                    payload.get("end_date"), TIMESTAMP_FMT
+                ).date()
+            except Exception:
+                abort(400, "Invalid end_date format")
         if "category_id" in payload:
             budget.category_id = payload.get("category_id")
 
