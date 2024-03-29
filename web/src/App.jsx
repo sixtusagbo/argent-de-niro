@@ -11,22 +11,25 @@ import Analytics from './pages/analytics'
 // import Transactions from './pages/transactions'
 import Dashboard from './pages/dashboard'
 import SharedLanding from './pages/sharedlanding'
+import { AuthProvider } from './context/AuthProvider'
 
 function App() {
   return (
 
     <BrowserRouter>
-      <Routes>
-        <Route index element={<LandingPage />} />
-        <Route path="login" element={<LoginPage />} />
-        <Route path="signup" element={<SignupPage />} />
-        <Route path="home" element={<Home />} />
-        <Route path="budget" element={<Budget />} />
-        <Route path="goals" element={<Goals />} />
-        <Route path="analytics" element={<Analytics />} />
+      <AuthProvider>
+        <Routes>
+          <Route index element={<LandingPage />} />
+          <Route path="login" element={<LoginPage />} />
+          <Route path="signup" element={<SignupPage />} />
+          <Route path="home" element={<Home />} />
+          <Route path="budget" element={<Budget />} />
+          <Route path="goals" element={<Goals />} />
+          <Route path="analytics" element={<Analytics />} />
           {/* <Route path="transactions" element={<Transactions />} /> */}
-      </Routes>
-    </BrowserRouter >
+        </Routes>
+      </AuthProvider>
+    </BrowserRouter>
 
     // <>
     //   <main>

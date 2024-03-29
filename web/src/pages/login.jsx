@@ -1,35 +1,29 @@
-import React from 'react';
 import { useForm } from 'react-hook-form';
-import ToggleEntry from '../components/toggleEntry';
 import Button from '../components/button';
+import { axiosForm } from '../data';
 // import { useNavigate } from 'react-router-dom';
-
-import axios from 'axios';
 
 const LoginPage = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     // Existing code...
 
-    const onSubmit =  (data) => {
-        // const loginFormData = new FormData();
-        // loginFormData.append('email', data.email);
-        // loginFormData.append('password', data.password);
-        // let credenntials = {};
-        // try {
-        //     const user = await axios.get('http://localhost:5000/api/v1/login', loginFormData, {
-        //         headers: {
-        //             'Content-Type': 'multipart/form-data',
-        //         },
-        //     });
-        //     credentials.
-        // );
-        //     const userId = response.data.userId; // Assuming the API response contains the user ID
-        //     console.log(userId);
-        //     // Handle the response data here
-        // } catch (error) {
-        //     console.error(error);
-        //     // Handle the error here
-        window.location.href = `/home`;
+    const onSubmit = async (data) => {
+        const loginFormData = new FormData();
+        loginFormData.append('email', data.email);
+        loginFormData.append('password', data.password);
+        try {
+            const response = await axiosForm.post('/users', loginFormData);
+            console.log(response);
+
+            console.log(loginFormData);
+            console.log("It went through");
+            // // Redirect to dashboard
+            // window.location.href = '/login';
+        } catch (error) {
+            console.error(error);
+        }
+        // Handle the error here
+        window.location.href = `/dashboard`;
     }
 
     return (
