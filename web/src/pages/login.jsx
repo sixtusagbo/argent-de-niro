@@ -10,10 +10,10 @@ const LoginPage = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     // Existing code...
 
-    const onSubmit = async (data) => {
-        const loginFormData = new FormData();
-        loginFormData.append('email', data.email);
-        loginFormData.append('password', data.password);
+    const onSubmit =  (data) => {
+        // const loginFormData = new FormData();
+        // loginFormData.append('email', data.email);
+        // loginFormData.append('password', data.password);
         // let credenntials = {};
         // try {
         //     const user = await axios.get('http://localhost:5000/api/v1/login', loginFormData, {
@@ -29,14 +29,14 @@ const LoginPage = () => {
         // } catch (error) {
         //     console.error(error);
         //     // Handle the error here
-        window.location.href = `/dashboard`;
+        window.location.href = `/home`;
     }
 
     return (
         <section className='bg-[#90EB88] h-screen w-full '>
-            <section>
+            <section className='w-2/4 mx-auto bg-[#90EB88] pt-24'>
 
-                < button className='bg-white rounded mt-16 max-sm:ml-20 sm:ml-44 py-2 px-12'>log in</button>
+                <button className='bg-white rounded mt-16 max-sm:ml-20 sm:ml-44 py-2 px-12'>log in</button>
                 <button className='bg-white rounded py-2 px-12'>sign up</button>
 
                 <section className='bg-[#90EB88]  flex items-center justify-center'>
@@ -79,7 +79,7 @@ const LoginPage = () => {
                             />
                             <span className='text-sm ml-3 text-red-600'>{errors.password?.message}</span>
                         </label>
-                        <section className='flex flex-col mx-16 ml-28 sm:ml-48'>
+                        <section className='md:ml-10'>
                             <Button intent='welcoming' label='Log in' />
                         </section>
                         <p className='text-center'>Create an account. Sign Up!</p>

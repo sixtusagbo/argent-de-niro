@@ -14,58 +14,57 @@ const SignupPage = () => {
 
     // const { errors } = formState;
 
-    const onSubmit = async (data, event) => {
-        const signupFormData = new FormData();
-        signupFormData.append('first_name', data.firstName);
-        signupFormData.append('last_name', data.surname);
-        signupFormData.append('email', data.email);
-        signupFormData.append('password', data.password);
-        signupFormData.append('date_of_birth', new Date(data.dateOfBirth).toISOString());
+    const onSubmit =  (data, event) => {
+        // const signupFormData = new FormData();
+        // signupFormData.append('first_name', data.firstName);
+        // signupFormData.append('last_name', data.surname);
+        // signupFormData.append('email', data.email);
+        // signupFormData.append('password', data.password);
+        // signupFormData.append('date_of_birth', new Date(data.dateOfBirth).toISOString());
 
-        // Check if optional fields are filled out and append them to the form data
-        if (data.optionalField1) {
-            signupFormData.append('country', data.country);
-        }
-        if (data.optionalField2) {
-            signupFormData.append('timezone', data.timezone);
-        }
-        if (data.optionalField3) {
-            signupFormData.append('currency', data.currency);
-        }
-        try {
-            // const response = await axios.post('http://localhost:5000/api/v1/users', signupFormData, {
-            //     headers: {
-            //         'Content-Type': 'multipart/form-data',
-            //     },
-            // });
+        // // Check if optional fields are filled out and append them to the form data
+        // if (data.optionalField1) {
+        //     signupFormData.append('country', data.country);
+        // }
+        // if (data.optionalField2) {
+        //     signupFormData.append('timezone', data.timezone);
+        // }
+        // if (data.optionalField3) {
+        //     signupFormData.append('currency', data.currency);
+        // }
+        // try {
+        //     const response = await axios.post('http://localhost:5000/api/v1/users', signupFormData, {
+        //         headers: {
+        //             'Content-Type': 'multipart/form-data',
+        //         },
+        //     });
 
-            console.log(signupFormData);
-            console.log("It went through");
-            event.preventDefault();
-            // // Redirect to login page
-            // window.location.href = '/login';
-        } catch (error) {
-            console.error(error);
-        }
+        //     console.log(signupFormData);
+        //     console.log("It went through");
+        //     event.preventDefault();
+        //     //Redirect to login page
+        //     window.location.href = '/login';
+        // } catch (error) {
+        //     console.error(error);
+        // }
         // console.log(response.data);
-        // window.location.href = '/login';
+        window.location.href = '/login';
     };
 
     return (
         // <section >
         //     <section className='w-10/12 h-10/12 rounded-r-xl'>
         <section className='bg-[#90EB88] h-screen w-full '>
+            <section className='w-2/4 mx-auto bg-[#90EB88] '>
+                
+                <button className='bg-white rounded mt-16 max-sm:ml-20 sm:ml-44 py-2 px-12'>log in</button>
+                <button className='bg-white rounded py-2 px-12'>sign up</button>
 
-            <button className='bg-white rounded mt-16 max-sm:ml-20 sm:ml-44 py-2 px-12'>log in</button>
-            <button className='bg-white rounded py-2 px-12'>sign up</button>
-
-            <section className='bg-[#90EB88]  flex items-center justify-center'>
-
-                <form onSubmit={handleSubmit(onSubmit)} >
-                    <section className='mt-8 grid grid-cols-1 gap-x-4 min-md:gap-y-8 md:grid-cols-6'>
-
-                        <label htmlFor='firstName' className='block font-medium leading-6 text-gray-900'>
-                            <input
+                <section className='bg-[#90EB88]  flex items-center justify-center'>
+                    <form onSubmit={handleSubmit(onSubmit)} >
+                         <section className='mt-8 grid grid-cols-1 gap-x-4 min-md:gap-y-8 md:grid-cols-2'>
+                            <label htmlFor='firstName' className='block font-medium leading-6 text-gray-900'>
+                                <input
                                 className='bg-white rounded-2xl pl-8 pr-8 py-2 my-3 w-full outline-none'
                                 type='text'
                                 name='firstName'
@@ -178,8 +177,9 @@ const SignupPage = () => {
 
                 </form>
             </section>
-
+            </section>
         </section>
+
         // </section>
     );
 }
