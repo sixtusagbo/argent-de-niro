@@ -54,7 +54,7 @@ const Menubar = () => {
 
     return (
         <menu >
-            <section className='bg-[#43534D] w-[305px] max-lg:hidden h-screen relative'>
+            <section className='bg-[#43534D] w-72 max-lg:hidden h-screen relative'>
                 <img src={logo} alt="logo" className='pt-3' width={80} height={41} />
                 <nav className='flex flex-col'>
                     <ul className="list-none mt-36 mb-12 content-center">
@@ -83,7 +83,9 @@ const Menubar = () => {
                 </nav>
             </section>
             <section className='bg-zinc-100 max-lg:bg-[#43534D] h-20 w-full absolute top-0 right-0 flex flex-row'>
-                <h2 className='p-7 max-lg:text-white'> {activeItem.toUpperCase()} </h2>
+                <section className='lg:w-72 bg-[#43534D] '>
+                <h2 className='p-7 text-white'> {activeItem.toUpperCase()} </h2>
+                </section>
                 <SearchBar />
                 <UilEllipsisH size={30} onClick={toggleMenu} className="hidden max-lg:inline-block absolute top-1/2 transform -translate-y-1/2 right-6 text-white" />
             </section>

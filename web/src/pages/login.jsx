@@ -28,7 +28,7 @@ const LoginPage = () => {
     }
 
     return (
-        <section className='bg-[#90EB88] h-screen w-full '>
+        <section className='bg-[#43534D] h-screen w-full '>
             <section className='max-w-xl mx-auto flex flex-col bg-[#90EB88] pt-8 justify-center align-center'>
 
                 <ToggleEntry/>
