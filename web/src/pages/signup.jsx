@@ -50,7 +50,7 @@ const SignupPage = () => {
     return (
         // <section >
         //     <section className='w-10/12 h-10/12 rounded-r-xl'>
-        <section className='bg-[#90EB88] h-screen w-screen '>
+        <section className='bg-[#90EB88] h-screen w-full pt-24'>
             <section className='max-w-xl mx-auto flex flex-col bg-[#90EB88] pt-8 justify-center align-center'>
 
                 <ToggleEntry/>

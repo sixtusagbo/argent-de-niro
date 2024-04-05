@@ -28,8 +28,8 @@ const LoginPage = () => {
     }
 
     return (
-        <section className='bg-[#43534D] h-screen w-full '>
-            <section className='max-w-xl mx-auto flex flex-col bg-[#90EB88] pt-8 justify-center align-center'>
+        <section className='bg-[#43534D] h-screen w-full pt-24 max-lg:px-2'>
+            <section className='max-w-xl mx-auto flex flex-col bg-[#90EB88] pb-4 pt-8 justify-center align-center rounded-2xl'>
 
                 <ToggleEntry/>
                 <section className='bg-[#90EB88]  flex items-center justify-center pt-4'>

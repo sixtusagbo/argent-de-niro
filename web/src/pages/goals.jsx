@@ -22,7 +22,7 @@ const Goals = () => {
                     <button className={goals === 'active' ? ' bg-white text-center p-6 text-xl w-1/2' : ' bg-[#D9D9D9] text-center p-6 text-xl w-1/2'} onClick={() => handleButtonClick('active')}>ACTIVE</button>
                     <button className={goals === 'completed' ? ' bg-white text-center p-6 text-xl w-1/2' : ' bg-[#D9D9D9] text-center p-6 text-xl w-1/2' } onClick={() => handleButtonClick('completed')}>COMPLETED</button>
                 </section>
-                <section className='flex justify-center pt-6 h-5/6'>
+                <section className='flex justify-center pt-6 h-5/6 overflow-auto'>
                     <GoalsActive goals={goalProp}/>
                 </section>
             </section>

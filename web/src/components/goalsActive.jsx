@@ -14,6 +14,7 @@ const GoalsActive = ({goals}) => {
 
     const handleAddGoal = () => {
         console.log('Add a new goal');
+        window.location.href = '/addGoal';
     }
 
     if (userGoals){
@@ -21,7 +22,7 @@ const GoalsActive = ({goals}) => {
                 if (goals === 'active'){
                     if (goal.status === 'active') {
                         return (
-                            <section className='flex jusitfy-center content-center justify-items-center w-11/12 rounded-xl bg-white p-2 grid-col-4 gap-2'>
+                            <section className='flex jusitfy-center content-center justify-items-center w-11/12 rounded-xl bg-white overflow-auto scrollbar p-2 grid-col-4 gap-2'>
                                 <h1 className='pl-2 text-xl pb-2'>Active Goals</h1>
                                 <section className='bg-[#D9D9D9] border-none flex flex-col rounded-2xl p-2 place-items-center cursor-pointer w-1/4 max-md:w-full h-28' >
                                     <UilUsdCircle className='text-xl'/>
