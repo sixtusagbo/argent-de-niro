@@ -9,7 +9,7 @@ from api.v1.auth.middleware import token_required
 from api.v1.auth.passwords import hash_password
 from api.v1.utils import remove_file, save_profile_pic
 from api.v1.views import app_views
-from utils import TIMESTAMP_FMT
+from api.v1.utils import TIMESTAMP_FMT
 
 
 @app_views.route("/users", methods=["POST"])

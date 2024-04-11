@@ -9,7 +9,7 @@ from api.models.user import User
 from api.v1.auth.middleware import token_required
 from api.v1.views import app_views
 from api.models.transaction import Transaction
-from utils import TIMESTAMP_FMT
+from api.v1.utils import TIMESTAMP_FMT
 
 
 @app_views.route("/budgets", methods=["POST"])
