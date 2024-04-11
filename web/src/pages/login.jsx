@@ -1,6 +1,7 @@
 import { useForm } from 'react-hook-form';
 import Button from '../components/button';
 import { axiosForm } from '../data';
+import ToggleEntry from '../components/toggleEntry';
 // import { useNavigate } from 'react-router-dom';
 
 const LoginPage = () => {
@@ -27,14 +28,11 @@ const LoginPage = () => {
     }
 
     return (
-        <section className='bg-[#90EB88] h-screen w-full '>
-            <section className='w-2/4 mx-auto bg-[#90EB88] pt-24'>
+        <section className='bg-[#43534D] h-screen w-full pt-24 max-lg:px-2'>
+            <section className='max-w-xl mx-auto flex flex-col bg-[#90EB88] pb-4 pt-8 justify-center align-center rounded-2xl'>
 
-                <button className='bg-white rounded mt-16 max-sm:ml-20 sm:ml-44 py-2 px-12'>log in</button>
-                <button className='bg-white rounded py-2 px-12'>sign up</button>
-
-                <section className='bg-[#90EB88]  flex items-center justify-center'>
-
+                <ToggleEntry/>
+                <section className='bg-[#90EB88]  flex items-center justify-center pt-4'>
 
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <label htmlFor='email' className='block font-medium leading-6 text-gray-900'>
@@ -73,10 +71,10 @@ const LoginPage = () => {
                             />
                             <span className='text-sm ml-3 text-red-600'>{errors.password?.message}</span>
                         </label>
-                        <section className='md:ml-10'>
-                            <Button intent='welcoming' label='Log in' />
+                        <section className='flex justify-center'>
+                            <Button intent='welcoming' label='Log In' />
                         </section>
-                        <p className='text-center'>Create an account. Sign Up!</p>
+                        <p className='text-center'>Create an account. <a href='/signup' className='cursor-pointer text-gray-700'>Sign Up!</a></p>
                     </form>
                 </section>
             </section>

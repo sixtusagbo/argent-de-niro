@@ -12,6 +12,7 @@ import Analytics from './pages/analytics'
 import Dashboard from './pages/dashboard'
 import SharedLanding from './pages/sharedlanding'
 import { AuthProvider } from './context/AuthProvider'
+import GoalForm from './pages/goalSetup'
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
           <Route path="budget" element={<Budget />} />
           <Route path="goals" element={<Goals />} />
           <Route path="analytics" element={<Analytics />} />
+          <Route path="addgoal" element={<GoalForm />} />
           {/* <Route path="transactions" element={<Transactions />} /> */}
         </Routes>
       </AuthProvider>

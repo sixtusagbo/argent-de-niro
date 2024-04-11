@@ -2,6 +2,15 @@ import { useEffect, useState } from 'react';
 import axios from '../api/axios';
 import useAxiosAuth from './useAxiosAuth';
 
+/**
+ * Custom hook for making HTTP requests to a specified URL.
+ *
+ * @param {string} url - The URL to make the request to.
+ * @param {*} initialValue - The initial value for the data state.
+ * @param {boolean} [authorized=true] - Flag indicating whether the request should be authorized.
+ * @returns {object} - An object containing the data, isLoading, and error states.
+ */
+
 const useClient = (url, initialValue, authorized = true) => {
   const [data, setData] = useState(initialValue ?? null);
   const [isLoading, setIsLoading] = useState(true);

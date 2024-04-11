@@ -1,6 +1,7 @@
 import { useForm } from 'react-hook-form';
 import Button from '../components/button';
 import { axiosForm } from '../data';
+import ToggleEntry from '../components/toggleEntry';
 
 
 const SignupPage = () => {
@@ -49,13 +50,14 @@ const SignupPage = () => {
     return (
         // <section >
         //     <section className='w-10/12 h-10/12 rounded-r-xl'>
-        <section className='bg-[#90EB88] h-screen w-full '>
-            <section className='w-2/4 mx-auto bg-[#90EB88] '>
+        <section className='bg-[#90EB88] h-screen w-full pt-24'>
+            <section className='max-w-xl mx-auto flex flex-col bg-[#90EB88] pt-8 justify-center align-center'>
 
-                <button className='bg-white rounded mt-16 max-sm:ml-20 sm:ml-44 py-2 px-12'>log in</button>
-                <button className='bg-white rounded py-2 px-12'>sign up</button>
+                <ToggleEntry/>
+                {/* <button className='bg-white rounded mt-16 max-sm:ml-20 sm:ml-44 py-2 px-12'>log in</button>
+                <button className='bg-white rounded py-2 px-12'>sign up</button> */}
 
-                <section className='bg-[#90EB88]  flex items-center justify-center'>
+                <section className='bg-[#90EB88] '>
                     <form onSubmit={handleSubmit(onSubmit)} >
                         <section className='mt-8 grid grid-cols-1 gap-x-4 min-md:gap-y-8 md:grid-cols-2'>
                             <label htmlFor='firstName' className='block font-medium leading-6 text-gray-900'>
@@ -77,7 +79,7 @@ const SignupPage = () => {
                                         })}
                                 />
                             </label>
-                            <span className='hidden sm:inline-block text-sm ml-3 my-0 text-red-600'>{errors.fullname?.message}</span>
+                            <span className='hidden text-sm ml-3 my-0 text-red-600'>{errors.fullname?.message}</span>
 
 
                             <label htmlFor='surname' className='block font-medium leading-6 text-gray-900'>
@@ -100,7 +102,7 @@ const SignupPage = () => {
                                 />
 
                             </label>
-                            <span className='hidden sm:inline-block text-sm ml-3 my-0 text-red-600'>{errors.fullname?.message}</span>
+                            <span className='hidden  text-sm ml-3 my-0 text-red-600'>{errors.fullname?.message}</span>
                         </section>
                         <label htmlFor='dateOfBirth' className='block font-medium leading-6 '>
                             <input
@@ -168,7 +170,7 @@ const SignupPage = () => {
                         <section className='flex flex-col mx-16 ml-28 sm:ml-48'>
                             <Button intent='welcoming' label='Sign Up' />
                         </section>
-                        <p className='text-center'>Already have an acccount? Login</p>
+                        <p className='text-center'>Already have an acccount? <a href='/login' className='cursor-pointer text-gray-700'>Login</a></p>
 
                     </form>
                 </section>
