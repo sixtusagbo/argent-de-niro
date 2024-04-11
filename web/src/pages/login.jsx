@@ -1,37 +1,42 @@
 import { useForm } from 'react-hook-form';
 import Button from '../components/button';
-import { axiosForm } from '../data';
+import { axiosForm } from '../api/axios';
 import ToggleEntry from '../components/toggleEntry';
-// import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import useAuth from '../hooks/useAuth';
 
 const LoginPage = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
-    // Existing code...
+    const navigate = useNavigate();
+    const location = useLocation();
+    const { setAuth } = useAuth();
+    const from = location.state?.from?.pathname || '/home';
 
     const onSubmit = async (data) => {
         const loginFormData = new FormData();
         loginFormData.append('email', data.email);
         loginFormData.append('password', data.password);
         try {
-            const response = await axiosForm.post('/users', loginFormData);
+            const response = await axiosForm.post('/login', loginFormData);
             console.log(response);
 
-            console.log(loginFormData);
             console.log("It went through");
-            // // Redirect to dashboard
-            // window.location.href = '/login';
+
+            const accessToken = response?.data?.access_token;
+            const user = response?.data?.user;
+            const auth = { accessToken, user };
+            setAuth(auth);
+            navigate(from, { replace: true });
         } catch (error) {
             console.error(error);
         }
-        // Handle the error here
-        window.location.href = `/dashboard`;
     }
 
     return (
         <section className='bg-[#43534D] h-screen w-full pt-24 max-lg:px-2'>
             <section className='max-w-xl mx-auto flex flex-col bg-[#90EB88] pb-4 pt-8 justify-center align-center rounded-2xl'>
 
-                <ToggleEntry/>
+                <ToggleEntry />
                 <section className='bg-[#90EB88]  flex items-center justify-center pt-4'>
 
                     <form onSubmit={handleSubmit(onSubmit)}>
@@ -57,6 +62,7 @@ const LoginPage = () => {
                                 type='password'
                                 name='password'
                                 placeholder='Password'
+                                autoCapitalize='current-password'
                                 {...register('password',
                                     {
                                         required: {

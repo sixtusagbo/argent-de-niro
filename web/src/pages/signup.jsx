@@ -1,7 +1,8 @@
 import { useForm } from 'react-hook-form';
 import Button from '../components/button';
-import { axiosForm } from '../data';
+import { axiosForm } from '../api/axios';
 import ToggleEntry from '../components/toggleEntry';
+import { useState } from 'react';
 
 
 const SignupPage = () => {
@@ -9,10 +10,12 @@ const SignupPage = () => {
     // const navigate = useNavigate();
 
     const { register, handleSubmit, formState: { errors } } = useForm();
+    const [error, setError] = useState(null);
 
     // const { errors } = formState;
 
     const onSubmit = async (data, event) => {
+        event.preventDefault();
         const signupFormData = new FormData();
         signupFormData.append('first_name', data.firstName);
         signupFormData.append('last_name', data.surname);
@@ -31,19 +34,14 @@ const SignupPage = () => {
             signupFormData.append('currency', data.currency);
         }
         try {
-            const response = await axiosForm.post('/users', signupFormData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
-            });
+            const response = await axiosForm.post('/users', signupFormData);
             console.log(response);
 
-            console.log(signupFormData);
             console.log("It went through");
-            event.preventDefault();
             window.location.href = '/login';
         } catch (error) {
             console.error(error);
+            setError(error.response.data.error);
         }
     };
 
@@ -53,7 +51,7 @@ const SignupPage = () => {
         <section className='bg-[#90EB88] h-screen w-full pt-24'>
             <section className='max-w-xl mx-auto flex flex-col bg-[#90EB88] pt-8 justify-center align-center'>
 
-                <ToggleEntry/>
+                <ToggleEntry />
                 {/* <button className='bg-white rounded mt-16 max-sm:ml-20 sm:ml-44 py-2 px-12'>log in</button>
                 <button className='bg-white rounded py-2 px-12'>sign up</button> */}
 
@@ -147,7 +145,7 @@ const SignupPage = () => {
                                 type='password'
                                 name='password'
                                 placeholder='Password'
-                                suggested='current-password'
+                                autoComplete='new-password'
                                 {...register('password',
                                     {
                                         required: {
@@ -167,6 +165,7 @@ const SignupPage = () => {
                             />
                             <span className='text-sm ml-3 text-red-600'>{errors.password?.message}</span>
                         </label>
+                        {error && <span className='text-sm ml-3 text-red-600'>{error}</span>}
                         <section className='flex flex-col mx-16 ml-28 sm:ml-48'>
                             <Button intent='welcoming' label='Sign Up' />
                         </section>

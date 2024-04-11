@@ -2,15 +2,12 @@ import axios from '../api/axios';
 import useAuth from './useAuth';
 
 const useRefreshToken = () => {
-  const { auth, setAuth } = useAuth();
+  const { setAuth } = useAuth();
 
   const refresh = async () => {
     try {
       const response = await axios.get(
         '/refresh',
-        JSON.stringify({
-          refresh: auth?.refreshToken,
-        }),
         {
           headers: { 'Content-Type': 'application/json' },
         }

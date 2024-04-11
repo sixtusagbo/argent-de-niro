@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import axios from '../api/axios';
+import axiosForm from '../api/axios';
 import useAxiosAuth from './useAxiosAuth';
 
 /**
@@ -10,7 +10,6 @@ import useAxiosAuth from './useAxiosAuth';
  * @param {boolean} [authorized=true] - Flag indicating whether the request should be authorized.
  * @returns {object} - An object containing the data, isLoading, and error states.
  */
-
 const useClient = (url, initialValue, authorized = true) => {
   const [data, setData] = useState(initialValue ?? null);
   const [isLoading, setIsLoading] = useState(true);
@@ -20,7 +19,7 @@ const useClient = (url, initialValue, authorized = true) => {
   useEffect(() => {
     let isMounted = true;
     const controller = new AbortController();
-    const httpClient = authorized ? axiosAuth : axios;
+    const httpClient = authorized ? axiosAuth : axiosForm;
 
     const getCourses = async () => {
       try {
@@ -44,7 +43,7 @@ const useClient = (url, initialValue, authorized = true) => {
     };
   }, [url]);
 
-  return { data, isLoading, error };
+  return { data, isLoading, error, setData };
 };
 
 export default useClient;

@@ -3,7 +3,7 @@ import useAuth from './useAuth';
 const useLoginStatus = () => {
   const { auth } = useAuth();
 
-  if (auth?.userId) {
+  if (auth?.user?.id && auth?.accessToken) {
     return true;
   }
 
