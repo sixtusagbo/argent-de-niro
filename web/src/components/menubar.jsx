@@ -54,36 +54,38 @@ const Menubar = () => {
 
     return (
         <menu >
-            <section className='bg-[#43534D] w-[305px] max-lg:hidden h-screen relative'>
+            <section className='bg-[#43534D] w-72 max-lg:hidden h-screen relative'>
                 <img src={logo} alt="logo" className='pt-3' width={80} height={41} />
                 <nav className='flex flex-col'>
                     <ul className="list-none mt-36 mb-12 content-center">
                         <li className={activeItem === 'home' ? 'bg-[#D9D9D9]' : 'bg-[#43534D]'}>
                             <img src={activeItem === 'home' ? home : nchome} alt="home icon" className='inline-block mr-2 ml-5' width={30} height={31} />
                             {/* <a href="#home" className={activeItem === 'home' ? black : white} onClick={() => handleItemClick('home')}>Home</a> */}
-                            <Link to="dashboard/home" className={activeItem === 'home' ? black : white} onClick={() => handleItemClick('home')}>Home</Link>
+                            <Link to="/home" className={activeItem === 'home' ? black : white} onClick={() => handleItemClick('home')}>Home</Link>
                         </li>
                         <li className={activeItem === 'budget' ? 'bg-[#D9D9D9]' : 'bg-[#43534D]'}>
                             <img src={activeItem === 'budget' ? walletff : newwallet} alt="budget icon" className='inline-block mr-2 ml-5' width={30} height={31} />
                             {/* <a href="#budget" className={activeItem === 'budget' ? black : white} onClick={() => handleItemClick('budget')}>Budget</a> */}
-                            <Link to="dashboard/budget" className={activeItem === 'budget' ? black : white} onClick={() => handleItemClick('budget')}>Budget</Link>
+                            <Link to="/budget" className={activeItem === 'budget' ? black : white} onClick={() => handleItemClick('budget')}>Budget</Link>
                         </li>
                         <li className={activeItem === 'goals' ? 'bg-[#D9D9D9]' : 'bg-[#43534D]'}>
                             <img src={activeItem === 'goals' ? dart : ncdart} alt="goals icon" className='inline-block mr-2 ml-5' width={30} height={31} />
                             {/* <a href="#goals" className={activeItem === 'goals' ? black : white} onClick={() => handleItemClick('goals')}>Goals</a> */}
-                            <Link to="dashbard/goals" className={activeItem === 'goals' ? black : white} onClick={() => handleItemClick('goals')}>Goals</Link>
+                            <Link to="/goals" className={activeItem === 'goals' ? black : white} onClick={() => handleItemClick('goals')}>Goals</Link>
                         </li>
                         <li className={activeItem === 'analytics' ? 'bg-[#D9D9D9]' : 'bg-[#43534D]'}>
                             <img src={activeItem === 'analytics' ? graph : ncgraph} alt="analytics icon" className='inline-block mr-2 ml-5' width={30} height={31} />
                             {/* <a href="#analytics" className={activeItem === 'analytics' ? black : white} onClick={() => handleItemClick('analytics')}>Analytics</a> */}
-                            <Link to="dashboard/analytics" className={activeItem === 'analytics' ? black : white} onClick={() => handleItemClick('analytics')}>Analytics</Link>
+                            <Link to="/analytics" className={activeItem === 'analytics' ? black : white} onClick={() => handleItemClick('analytics')}>Analytics</Link>
                         </li>
                     </ul>
                     <Button label="Transaction" intent="transaction" />
                 </nav>
             </section>
             <section className='bg-zinc-100 max-lg:bg-[#43534D] h-20 w-full absolute top-0 right-0 flex flex-row'>
-                <h2 className='p-7 max-lg:text-white'> {activeItem.toUpperCase()} </h2>
+                <section className='lg:w-72 bg-[#43534D] '>
+                    <h2 className='p-7 text-white'> {activeItem.toUpperCase()} </h2>
+                </section>
                 <SearchBar />
                 <UilEllipsisH size={30} onClick={toggleMenu} className="hidden max-lg:inline-block absolute top-1/2 transform -translate-y-1/2 right-6 text-white" />
             </section>

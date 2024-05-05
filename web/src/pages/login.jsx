@@ -1,46 +1,43 @@
-import React from 'react';
 import { useForm } from 'react-hook-form';
-import ToggleEntry from '../components/toggleEntry';
 import Button from '../components/button';
-// import { useNavigate } from 'react-router-dom';
-
-import axios from 'axios';
+import { axiosForm } from '../api/axios';
+import ToggleEntry from '../components/toggleEntry';
+import { useLocation, useNavigate } from 'react-router-dom';
+import useAuth from '../hooks/useAuth';
 
 const LoginPage = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
-    // Existing code...
+    const navigate = useNavigate();
+    const location = useLocation();
+    const { setAuth } = useAuth();
+    const from = location.state?.from?.pathname || '/home';
 
-    const onSubmit =  (data) => {
-        // const loginFormData = new FormData();
-        // loginFormData.append('email', data.email);
-        // loginFormData.append('password', data.password);
-        // let credenntials = {};
-        // try {
-        //     const user = await axios.get('http://localhost:5000/api/v1/login', loginFormData, {
-        //         headers: {
-        //             'Content-Type': 'multipart/form-data',
-        //         },
-        //     });
-        //     credentials.
-        // );
-        //     const userId = response.data.userId; // Assuming the API response contains the user ID
-        //     console.log(userId);
-        //     // Handle the response data here
-        // } catch (error) {
-        //     console.error(error);
-        //     // Handle the error here
-        window.location.href = `/home`;
+    const onSubmit = async (data) => {
+        const loginFormData = new FormData();
+        loginFormData.append('email', data.email);
+        loginFormData.append('password', data.password);
+        try {
+            const response = await axiosForm.post('/login', loginFormData);
+            console.log(response);
+
+            console.log("It went through");
+
+            const accessToken = response?.data?.access_token;
+            const user = response?.data?.user;
+            const auth = { accessToken, user };
+            setAuth(auth);
+            navigate(from, { replace: true });
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     return (
-        <section className='bg-[#90EB88] h-screen w-full '>
-            <section className='w-2/4 mx-auto bg-[#90EB88] pt-24'>
+        <section className='bg-[#43534D] h-screen w-full pt-24 max-lg:px-2'>
+            <section className='max-w-xl mx-auto flex flex-col bg-[#90EB88] pb-4 pt-8 justify-center align-center rounded-2xl'>
 
-                <button className='bg-white rounded mt-16 max-sm:ml-20 sm:ml-44 py-2 px-12'>log in</button>
-                <button className='bg-white rounded py-2 px-12'>sign up</button>
-
-                <section className='bg-[#90EB88]  flex items-center justify-center'>
-
+                <ToggleEntry />
+                <section className='bg-[#90EB88]  flex items-center justify-center pt-4'>
 
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <label htmlFor='email' className='block font-medium leading-6 text-gray-900'>
@@ -65,6 +62,7 @@ const LoginPage = () => {
                                 type='password'
                                 name='password'
                                 placeholder='Password'
+                                autoCapitalize='current-password'
                                 {...register('password',
                                     {
                                         required: {
@@ -79,10 +77,10 @@ const LoginPage = () => {
                             />
                             <span className='text-sm ml-3 text-red-600'>{errors.password?.message}</span>
                         </label>
-                        <section className='md:ml-10'>
-                            <Button intent='welcoming' label='Log in' />
+                        <section className='flex justify-center'>
+                            <Button intent='welcoming' label='Log In' />
                         </section>
-                        <p className='text-center'>Create an account. Sign Up!</p>
+                        <p className='text-center'>Create an account. <a href='/signup' className='cursor-pointer text-gray-700'>Sign Up!</a></p>
                     </form>
                 </section>
             </section>

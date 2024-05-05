@@ -6,10 +6,10 @@ export function getMonthName() {
     return month[new Date().getMonth()];
 }
 
-export const user = async (route, data) => {
+export const user = async (data) => {
     let credentials = {};
     try{
-        const userInfo = await axios.get(route, data);
+        const userInfo = await axios.get('/login', data);
         credentials.append('refresh_token', userInfo.data.refresh_token);
         credentials.append('access_token', userInfo.data.access_token);
         return credentials;

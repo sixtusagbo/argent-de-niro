@@ -9,24 +9,39 @@ import Budget from './pages/budget'
 import Goals from './pages/goals'
 import Analytics from './pages/analytics'
 // import Transactions from './pages/transactions'
-import Dashboard from './pages/dashboard'
-import SharedLanding from './pages/sharedlanding'
+import { AuthProvider } from './context/AuthProvider'
+import GoalForm from './pages/goalSetup'
+import PreAuth from './layouts/PreAuth'
+import NotFound from './404'
+import RequireAuth from './layouts/RequireAuth'
 
 function App() {
   return (
 
     <BrowserRouter>
-      <Routes>
-        <Route index element={<LandingPage />} />
-        <Route path="login" element={<LoginPage />} />
-        <Route path="signup" element={<SignupPage />} />
-        <Route path="home" element={<Home />} />
-        <Route path="budget" element={<Budget />} />
-        <Route path="goals" element={<Goals />} />
-        <Route path="analytics" element={<Analytics />} />
+      <AuthProvider>
+        <Routes>
+          <Route index element={<LandingPage />} />
+
+          <Route element={<PreAuth />}>
+            <Route path="login" element={<LoginPage />} />
+            <Route path="signup" element={<SignupPage />} />
+          </Route>
+
+          <Route element={<RequireAuth />}>
+            <Route path="home" element={<Home />} />
+            <Route path="budget" element={<Budget />} />
+            <Route path="goals" element={<Goals />} />
+            <Route path="analytics" element={<Analytics />} />
+            <Route path="addgoal" element={<GoalForm />} />
+          </Route>
           {/* <Route path="transactions" element={<Transactions />} /> */}
-      </Routes>
-    </BrowserRouter >
+
+
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </AuthProvider>
+    </BrowserRouter>
 
     // <>
     //   <main>
