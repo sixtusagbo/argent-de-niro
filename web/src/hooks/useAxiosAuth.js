@@ -1,17 +1,22 @@
 import { axiosAuth } from '../api/axios';
-import useAuth from './useAuth';
+import { logOutUser } from '../app/slices/userSlice';
 import useRefreshToken from './useRefreshToken';
 import { useEffect } from 'react';
+import { useSelector, useDispatch} from 'react-redux';
+
+
 
 const useAxiosAuth = () => {
+  const dispatch = useDispatch();
   const refresh = useRefreshToken();
-  const { auth, setAuth } = useAuth();
+  const accessToken = useSelector(state => state.user.accessToken);
+  const auth = useSelector(state => state.user);
 
   useEffect(() => {
     const requestInterceptor = axiosAuth.interceptors.request.use(
       (config) => {
         if (!config.headers['Authorization']) {
-          config.headers['Authorization'] = `Bearer ${auth.accessToken}`;
+          config.headers['Authorization'] = `Bearer ${accessToken}`;
         }
         return config;
       },
@@ -30,7 +35,7 @@ const useAxiosAuth = () => {
           return axiosAuth(prevRequest);
         } else if (error?.response?.status === 401 && prevRequest.sent) {
           // Refresh token has expired, log the user out
-          setAuth({});
+          dispatch(logOutUser());
         }
 
         return Promise.reject(error);

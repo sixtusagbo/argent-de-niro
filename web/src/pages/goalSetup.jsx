@@ -2,7 +2,10 @@ import React from 'react';
 import {useForm} from 'react-hook-form';
 import Button from '../components/button';
 import Menubar from '../components/menubar';
-import { UilArrowLeft } from '@iconscout/react-unicons'
+import { UilArrowLeft } from '@iconscout/react-unicons';
+import { axiosForm } from '../api/axios';
+import AlertComponent from '../components/alert';
+
 
 const GoalForm = () => {
     const { register, handleSubmit } = useForm();
@@ -20,11 +23,15 @@ const GoalForm = () => {
 
         try {
             const response = await axiosForm.post('/goals', goals);
-            console.log(response);
-            console.log("It went through");
+            if(response.status === 201){
+                <AlertComponent status='success' type='Goal'/>
+            } else {
+                <AlertComponent status='error' type='Goal'/>
+            }
             window.location.href = '/goals';
         } catch (error) {
             console.error(error);
+            <AlertComponent status='error' type='Goal'/>
         }
     }
 

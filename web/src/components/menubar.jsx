@@ -18,6 +18,8 @@ import { UilEllipsisH } from '@iconscout/react-unicons';
 import SearchBar from './searchButton';
 import Hamburger from './hamburger';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { Avatar } from 'keep-react'
 
 const Menubar = () => {
     let white = 'text-white text-xl text-center';
@@ -25,6 +27,7 @@ const Menubar = () => {
 
     const [activeItem, setActiveItem] = useState('home');
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const user = useSelector((state) => state.user.user);
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
@@ -84,7 +87,11 @@ const Menubar = () => {
             </section>
             <section className='bg-zinc-100 max-lg:bg-[#43534D] h-20 w-full absolute top-0 right-0 flex flex-row'>
                 <section className='lg:w-72 bg-[#43534D] '>
-                    <h2 className='p-7 text-white'> {activeItem.toUpperCase()} </h2>
+                    <img src={logo} alt="logo" className='pt-3' width={80} height={41} />
+                    <article className='flex flex-col items-center pt-6 max-lg:hidden'>
+                        <Avatar size="xl" color='success'/>
+                        <h2 className='pt-2 text-white text-xl'> {user.first_name} {user.last_name}</h2>
+                    </article>
                 </section>
                 <SearchBar />
                 <UilEllipsisH size={30} onClick={toggleMenu} className="hidden max-lg:inline-block absolute top-1/2 transform -translate-y-1/2 right-6 text-white" />

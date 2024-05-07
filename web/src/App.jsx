@@ -9,7 +9,7 @@ import Budget from './pages/budget'
 import Goals from './pages/goals'
 import Analytics from './pages/analytics'
 // import Transactions from './pages/transactions'
-import { AuthProvider } from './context/AuthProvider'
+// import { AuthProvider } from './context/AuthProvider'
 import GoalForm from './pages/goalSetup'
 import PreAuth from './layouts/PreAuth'
 import NotFound from './404'
@@ -19,7 +19,7 @@ function App() {
   return (
 
     <BrowserRouter>
-      <AuthProvider>
+      
         <Routes>
           <Route index element={<LandingPage />} />
 
@@ -40,7 +40,7 @@ function App() {
 
           <Route path="*" element={<NotFound />} />
         </Routes>
-      </AuthProvider>
+      
     </BrowserRouter>
 
     // <>

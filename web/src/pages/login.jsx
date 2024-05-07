@@ -3,30 +3,39 @@ import Button from '../components/button';
 import { axiosForm } from '../api/axios';
 import ToggleEntry from '../components/toggleEntry';
 import { useLocation, useNavigate } from 'react-router-dom';
-import useAuth from '../hooks/useAuth';
+// import useAuth from '../hooks/useAuth';
+import { useDispatch, useSelector } from 'react-redux';
+import { logInUser } from '../app/slices/userSlice';
+
 
 const LoginPage = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const navigate = useNavigate();
     const location = useLocation();
-    const { setAuth } = useAuth();
+    const dispatch = useDispatch();
+    // const { setAuth } = useAuth();
+    // const accessToken = useSelector((state) => state.user.accessToken);
+    const user = useSelector((state) => state.user.user);
+    // const { setAuth } = useAuth();
     const from = location.state?.from?.pathname || '/home';
+
 
     const onSubmit = async (data) => {
         const loginFormData = new FormData();
         loginFormData.append('email', data.email);
         loginFormData.append('password', data.password);
+
+        
         try {
-            const response = await axiosForm.post('/login', loginFormData);
-            console.log(response);
+            // const response = await axiosForm.post('/login', loginFormData);
+            dispatch(logInUser(loginFormData)).then(() => {
+                navigate(from, { replace: true });
+            });
 
-            console.log("It went through");
-
-            const accessToken = response?.data?.access_token;
-            const user = response?.data?.user;
-            const auth = { accessToken, user };
-            setAuth(auth);
-            navigate(from, { replace: true });
+            // const auth = { accessToken, user };
+            // setAuth(auth);
+            
+            console.log(user)
         } catch (error) {
             console.error(error);
         }

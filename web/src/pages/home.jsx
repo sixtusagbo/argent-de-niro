@@ -27,7 +27,7 @@ const Home = () => {
     return (
         <section className='flex'>
             <Menubar />
-            <section className='mt-2 pl-4 pt-20'>
+            <section className='mt-2 pl-4 pt-20 '>
                 <section className='flex pb-2 gap-10 pr-4'>
                     <article className='w-64 h-40 max-sm:h-36 bg-zinc-900 rounded-3xl text-center text-lg text-white pt-11'>
                         Income:
@@ -90,7 +90,7 @@ const Home = () => {
                     </section>
                     <button className='ml-[700px] mt-2 bg-zinc-300 p-1 rounded-lg text-sm'>Add Goal</button>
                 </section>
-                <section className='w-[846px] h-72 bg-white rounded-3xl mt-2 pt-1 pl-2'>
+                <section className='w-[846px] h-72 bg-white rounded-3xl mt-2 pt-1 pl-2 overflow-y-auto'>
                     <p className='pb-2'> My recent transactions</p>
                     <article className='flex-col'>
                         <p className='pl-2 pb-2'>
