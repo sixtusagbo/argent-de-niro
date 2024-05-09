@@ -5,10 +5,12 @@ import { UilMetro } from '@iconscout/react-unicons';
 import Menubar from '../components/menubar';
 import '../data';
 import { getMonthName } from '../data';
+import {useSelector} from 'react-redux'
 
 const Home = () => {
     // const [userData, setUserData] = useState(null);
     const [theDate, setTheDate] = useState("January");
+    const basicUserInfo = useSelector((state) => state.user.user)
 
     useEffect(() => {
         // const fetchUserData = async () => {
