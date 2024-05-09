@@ -90,6 +90,30 @@ def view_single_budget(current_user: User, budget_id: str = None) -> Response:
 
     return jsonify(result), 200
 
+'''
+@app_views.route("/budgets/<start_date>", methods=["GET"])
+@token_required
+def view_single_budget(current_user: User, budget_id: str = None) -> Response:
+    """GET /api/v1/budgets/<start_date>
+    Path params:
+        - budget_id
+    Return:
+        - Budget info in JSON
+    """
+    if start_date is None:
+        abort(404)
+    budget = None
+    budget = Budget.objects(start_date=start_date).first()
+    if budget is None:
+        abort(404)
+    if current_user.id != budget.user_id:
+        abort(403)
+
+    result = json.loads(budget.to_json())
+
+    return jsonify(result), 200
+'''
+
 
 @app_views.route("/users/<user_id>/budgets", methods=["GET"])
 @token_required
