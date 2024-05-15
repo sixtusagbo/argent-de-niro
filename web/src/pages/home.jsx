@@ -30,8 +30,8 @@ const Home = () => {
         <section className='flex'>
             <Menubar />
             <section className='mt-2 pl-4 pt-20 '>
-                <section className='flex pb-2 gap-10 pr-4'>
-                    <article className='w-64 h-40 max-sm:h-36 bg-zinc-900 rounded-3xl text-center text-lg text-white pt-11'>
+                <section className='flex pb-2 gap-10 pr-4 max-md:hidden'>
+                    <article className=' w-64 h-40 max-sm:h-36 bg-zinc-900 rounded-3xl text-center text-lg text-white pt-11'>
                         Income:
                         <br />
                         <p className='text-center text-2xl text-white'>6,400</p>
@@ -51,6 +51,25 @@ const Home = () => {
                         {/* - {userData.expenses} */}
                     </article>
                     {/* Your home component content here */}
+                </section>
+                <section className='md:hidden bg-zinc-900 rounded-3xl p-4 w-10/12'>
+                    <article className=''>
+                        <p className='pb-0 mb-0 text-center text-xl text-white'>6400</p>
+                        <p className='pt-0 pb-2 text-center text-sm text-white'> Current balance</p>
+                        <hr />
+                        <article className='flex'>
+                            <p className='pt-2 text-md text-white pr-4'>
+                                7000
+                                <br/>
+                                <span className='text-sm text-white'>Income</span>
+                            </p>
+                            <p className='pt-2 text-md text-white pl-4'>
+                                2000
+                                <br/>
+                                <span className='text-sm text-white'>Expenses</span>
+                            </p>
+                        </article>
+                    </article>
                 </section>
                 <section className='w-3/4 h-52 bg-white rounded-[30px] pb-10 text-black px-5 pt-2 rtl'>
                     <p className='text-lg'> Saving plan</p>
@@ -92,7 +111,7 @@ const Home = () => {
                     </section>
                     <button className='ml-[700px] mt-2 bg-zinc-300 p-1 rounded-lg text-sm'>Add Goal</button>
                 </section>
-                <section className='w-[846px] h-72 bg-white rounded-3xl mt-2 pt-1 pl-2 overflow-y-auto'>
+                <section className='max-w-screen-md h-72 bg-white rounded-3xl mt-2 pt-1 pl-2 overflow-y-auto'>
                     <p className='pb-2'> My recent transactions</p>
                     <article className='flex-col'>
                         <p className='pl-2 pb-2'>
@@ -103,7 +122,8 @@ const Home = () => {
                             </span>
                         </p>
                         <p className="font-normal ml-[700px]">1,200</p>
-                        <div className="w-[791px] h-[0px] border border-black ml-2"></div>
+                        <hr/>
+                        {/* <div className="w-[791px] h-[0px] border border-black ml-2"></div> */}
                     </article>
                     <article className='flex-col'>
                         <p className='pl-2 pb-1'>
@@ -114,7 +134,8 @@ const Home = () => {
                             </span>
                         </p>
                         <p className="font-normal ml-[700px]">100</p>
-                        <div className="w-[791px] h-[0px] border border-black ml-2"></div>
+                        <hr/>
+                        {/* <div className="w-[791px] h-[0px] border border-black ml-2"></div> */}
                     </article>
                     <article className='flex-col'>
                         <p className='pl-2 pb-1'>
@@ -125,7 +146,8 @@ const Home = () => {
                             </span>
                         </p>
                         <p className="font-normal ml-[700px]">10</p>
-                        <div className="w-[791px] h-[0px] border border-black ml-2"></div>
+                        <hr/>
+                        {/* <div className="w-[791px] h-[0px] border border-black ml-2"></div> */}
                     </article>
                     <article className='flex-col'>
                         <p className='pl-2 pb-1'>

@@ -93,10 +93,10 @@ def view_single_budget(current_user: User, budget_id: str = None) -> Response:
 '''
 @app_views.route("/budgets/<start_date>", methods=["GET"])
 @token_required
-def view_single_budget(current_user: User, budget_id: str = None) -> Response:
+def view_single_budget(current_user: User, start_date: str = None) -> Response:
     """GET /api/v1/budgets/<start_date>
     Path params:
-        - budget_id
+        - start_date
     Return:
         - Budget info in JSON
     """

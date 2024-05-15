@@ -26,9 +26,9 @@ function App() {
           <Route element={<PreAuth />}>
             <Route path="login" element={<LoginPage />} />
             <Route path="signup" element={<SignupPage />} />
-          </Route>
+          {/* </Route> */}
 
-          <Route element={<RequireAuth />}>
+          {/* <Route element={<RequireAuth />}> */}
             <Route path="home" element={<Home />} />
             <Route path="budget" element={<Budget />} />
             <Route path="goals" element={<Goals />} />
