@@ -74,15 +74,15 @@ const Home = () => {
                 </section>
                 <section className='w-3/4 h-52 bg-white rounded-[30px] pb-10 text-black px-5 pt-2 rtl'>
                     <p className='text-lg'> Saving plan</p>
-                    <div className='flex max-lg:flex-col items-center'>
+                    <div className='flex align-items-center'>
                         <p className='font-light mb-1 '>Your Goals are within reach, Keep it up!</p>
-                        <button className='ml-2 mt-2 bg-zinc-300 p-1 rounded-lg text-sm'>
+                        <button className='ml-2 mt-2 bg-zinc-300 p-1 rounded-lg text-sm mb-1'>
                             <UilPlus size={20} />
                         </button>
                     </div>
 
                     <section className='grid gap-10 max-lg:gap-2 grid-cols-2 max-lg:grid-cols-1'>
-                        <aside className='inline-block w-96 max-lg:w-screen h-24 bg-zinc-300 bg-opacity-30 rounded-3xl px-2 py-2'>
+                        <aside className='inline-block w-96 h-24 bg-zinc-300 bg-opacity-30 rounded-3xl px-2 py-2'>
                             <article className='flex-col'>
                                 <p className=' '>
                                     <span className='flex items-center'>
@@ -98,7 +98,7 @@ const Home = () => {
                                 <p className="text-black font-light ml-28">left 1,000</p>
                             </div>
                         </aside>
-                        <aside className='inline-block w-96 max-lg:w-full h-24 bg-zinc-300 bg-opacity-30 rounded-3xl lg:ml-12 px-2 py-2'>
+                        <aside className='inline-block w-96 h-24 bg-zinc-300 bg-opacity-30 rounded-3xl lg:ml-12 px-2 py-2'>
                             <article className='flex-col'>
                                 <p className=''>
                                     <span className='flex items-center'>
