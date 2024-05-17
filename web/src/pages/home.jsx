@@ -5,7 +5,8 @@ import { UilMetro } from '@iconscout/react-unicons';
 import Menubar from '../components/menubar';
 import '../data';
 import { getMonthName } from '../data';
-import {useSelector} from 'react-redux'
+import {useSelector} from 'react-redux';
+import { UilPlus } from '@iconscout/react-unicons'
 
 const Home = () => {
     // const [userData, setUserData] = useState(null);
@@ -29,9 +30,9 @@ const Home = () => {
     return (
         <section className='flex'>
             <Menubar />
-            <section className='mt-2 pl-4 pt-20 '>
-                <section className='flex pb-2 gap-10 pr-4 max-md:hidden'>
-                    <article className=' w-64 h-40 max-sm:h-36 bg-zinc-900 rounded-3xl text-center text-lg text-white pt-11'>
+            <section className='mt-2 pl-2 pt-20 '>
+                <section className='flex pb-2 gap-10 pr-4 max-lg:hidden'>
+                    <article className='w-64 h-40 max-sm:h-36 bg-zinc-900 rounded-3xl text-center text-lg text-white pt-11'>
                         Income:
                         <br />
                         <p className='text-center text-2xl text-white'>6,400</p>
@@ -52,8 +53,8 @@ const Home = () => {
                     </article>
                     {/* Your home component content here */}
                 </section>
-                <section className='md:hidden bg-zinc-900 rounded-3xl p-4 w-10/12'>
-                    <article className=''>
+                <section className='lg:hidden'>
+                    <article className=' bg-zinc-900 rounded-3xl p-4 w-full'>
                         <p className='pb-0 mb-0 text-center text-xl text-white'>6400</p>
                         <p className='pt-0 pb-2 text-center text-sm text-white'> Current balance</p>
                         <hr />
@@ -73,10 +74,15 @@ const Home = () => {
                 </section>
                 <section className='w-3/4 h-52 bg-white rounded-[30px] pb-10 text-black px-5 pt-2 rtl'>
                     <p className='text-lg'> Saving plan</p>
-                    <p className='font-light mb-1'>Your Goals are within reach, Keep it up!</p>
+                    <div className='flex max-lg:flex-col items-center'>
+                        <p className='font-light mb-1 '>Your Goals are within reach, Keep it up!</p>
+                        <button className='ml-2 mt-2 bg-zinc-300 p-1 rounded-lg text-sm'>
+                            <UilPlus size={20} />
+                        </button>
+                    </div>
 
-                    <section className='grid gap-6 max-sm:gap-2 grid-cols-2 max-sm:grid-cols-1'>
-                        <aside className='inline-block w-96 h-24 bg-zinc-300 bg-opacity-30 rounded-3xl px-2 py-2'>
+                    <section className='grid gap-10 max-lg:gap-2 grid-cols-2 max-lg:grid-cols-1'>
+                        <aside className='inline-block w-96 max-lg:w-screen h-24 bg-zinc-300 bg-opacity-30 rounded-3xl px-2 py-2'>
                             <article className='flex-col'>
                                 <p className=' '>
                                     <span className='flex items-center'>
@@ -92,7 +98,7 @@ const Home = () => {
                                 <p className="text-black font-light ml-28">left 1,000</p>
                             </div>
                         </aside>
-                        <aside className='inline-block w-96 h-24 bg-zinc-300 bg-opacity-30 rounded-3xl ml-12 px-2 py-2'>
+                        <aside className='inline-block w-96 max-lg:w-full h-24 bg-zinc-300 bg-opacity-30 rounded-3xl lg:ml-12 px-2 py-2'>
                             <article className='flex-col'>
                                 <p className=''>
                                     <span className='flex items-center'>
@@ -109,9 +115,9 @@ const Home = () => {
                             </div>
                         </aside>
                     </section>
-                    <button className='ml-[700px] mt-2 bg-zinc-300 p-1 rounded-lg text-sm'>Add Goal</button>
+                    
                 </section>
-                <section className='max-w-screen-md h-72 bg-white rounded-3xl mt-2 pt-1 pl-2 overflow-y-auto'>
+                <section className='w-fit h-72 bg-white rounded-3xl mt-2 pt-1 pl-2 overflow-y-auto max-lg:mt-14'>
                     <p className='pb-2'> My recent transactions</p>
                     <article className='flex-col'>
                         <p className='pl-2 pb-2'>
@@ -121,7 +127,7 @@ const Home = () => {
                                 yesterday - 12:00
                             </span>
                         </p>
-                        <p className="font-normal ml-[700px]">1,200</p>
+                        <p className="font-normal max-lg:ml-72 ml-96">1,200</p>
                         <hr/>
                         {/* <div className="w-[791px] h-[0px] border border-black ml-2"></div> */}
                     </article>
@@ -133,7 +139,7 @@ const Home = () => {
                                 Tuesday - 10:00
                             </span>
                         </p>
-                        <p className="font-normal ml-[700px]">100</p>
+                        <p className="font-normal max-lg:ml-72 ml-96">100</p>
                         <hr/>
                         {/* <div className="w-[791px] h-[0px] border border-black ml-2"></div> */}
                     </article>
@@ -145,7 +151,7 @@ const Home = () => {
                                 28/04 - 10:00
                             </span>
                         </p>
-                        <p className="font-normal ml-[700px]">10</p>
+                        <p className="font-normal max-lg:ml-72 ml-96">10</p>
                         <hr/>
                         {/* <div className="w-[791px] h-[0px] border border-black ml-2"></div> */}
                     </article>
@@ -165,6 +171,9 @@ const Home = () => {
                     {/* get recent transcations from api  */}
                 </section>
             </section >
+            <section>
+
+            </section>
         </section>
     );
 }
