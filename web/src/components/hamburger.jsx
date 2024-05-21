@@ -7,6 +7,7 @@ import home from '../assets/icons/home.svg';
 import walletff from '../assets/icons/walletff.svg';
 import dart from '../assets/icons/dart.svg';
 import graph from '../assets/icons/graph.svg';
+import { Avatar } from 'keep-react';
 
 
 const Hamburger = () => {
@@ -25,6 +26,10 @@ const Hamburger = () => {
     };
     return (
         <nav className='fixed inset-0 z-50 flex items-center justify-center bg-[#43534D]'>
+            <article className='flex flex-col items-center'>
+                <Avatar size="xl" color='success'/>
+                <h2 className='pt-2 text-white text-xl'> {user.first_name} {user.last_name}</h2>
+            </article>
 
             <ul className="list-none mt-36 mb-12 content-center w-full">
                 <li className={activeItem === 'home' ? 'bg-[#D9D9D9]' : 'bg-[#43534D]'}>

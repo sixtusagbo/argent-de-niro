@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
-"""Budget model"""
+"""Budget model
+from datatime import date, timedelta
+"""
 
 from datetime import datetime
 from mongoengine import (
@@ -12,7 +14,45 @@ from mongoengine import (
 from bson import json_util
 import json
 
+'''
+class Budget(Document):
+    """Defines a Budget"""
 
+    date = date.today() - timedelta(1)
+
+    user_id = ObjectIdField(required=True)
+    category_id = ObjectIdField(required=True)
+
+    name = StringField(required=True)
+    limit = DecimalField(required=True)
+    start_date = DateField(default=date)
+    end_date = DateField(required=True)
+
+    meta = {
+        "db_alias": "core",
+        "collection": "budgets",
+    }
+
+    def to_json(self):
+        """Converts a Budget instance to JSON"""
+        data = self.to_mongo().to_dict()
+        data["id"] = str(data["_id"])
+        del data["_id"]
+        data["category_id"] = str(data["category_id"])
+        data["user_id"] = str(data["user_id"])
+
+        # Convert date fields to string
+        if "start_date" in data:
+            data["start_date"] = data["start_date"].isoformat()
+        data["end_date"] = data["end_date"].isoformat()
+
+        return json_util.dumps(data)  # Convert to JSON
+
+    def to_dict(self):
+        """Converts this model to a python dictionary"""
+        return json.loads(self.to_json())
+
+'''
 class Budget(Document):
     """Defines a Budget"""
 

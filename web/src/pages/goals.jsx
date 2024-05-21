@@ -8,6 +8,7 @@ const Goals = () => {
 
     const [goals, setGoals] = useState('completed');
     const [goalProp, setGoalProp] = useState('completed');
+    
 
     const handleButtonClick = (item) =>{
             setGoals(item);

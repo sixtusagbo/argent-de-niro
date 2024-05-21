@@ -1,24 +1,33 @@
 import axios from "axios";
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import { UilUsdCircle } from '@iconscout/react-unicons';
 import { UilPlusCircle } from '@iconscout/react-unicons';
+import { useSelector, useDispatch } from "react-redux";
+import { fetchUserGoals } from "../app/slices/goalSlice";
+
 
 const GoalsActive = ({goals}) => {
+    let yourGoals = []
+    const dispatch = useDispatch();
+    const userGoal = useSelector((state) => state.userGoals.userGoals);
+    yourGoals.push(userGoal);
 
-    const [userGoals, setUserGoals] = useState(null);
-    // useEffect(async () => {
-    //     const availableGoals = await axios.get('http://127.0.0.1/api/v1/goals');
-    //     setUserGoals(availableGoals.data);
-    //     console.log(goals);
-    // }, [goals]);
+    useEffect( () => {
+        try{
+            dispatch(fetchUserGoals())
+            console.log('Goals fetched')
+        } catch (error) {
+            console.error(error)
+        }
+}, [goals]);
 
     const handleAddGoal = () => {
         console.log('Add a new goal');
         window.location.href = '/addGoal';
     }
 
-    if (userGoals){
-            userGoals.map((goal) => {
+    if (yourGoals){
+            yourGoals.map((goal) => {
                 if (goals === 'active'){
                     if (goal.status === 'active') {
                         return (

@@ -4,7 +4,7 @@ import useAxiosAuth from './useAxiosAuth';
 
 /**
  * Custom hook for making HTTP requests to a specified URL.
- *
+ * don't need this if I am using redux toolkit
  * @param {string} url - The URL to make the request to.
  * @param {*} initialValue - The initial value for the data state.
  * @param {boolean} [authorized=true] - Flag indicating whether the request should be authorized.

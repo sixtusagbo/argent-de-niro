@@ -10,7 +10,7 @@ const SignupPage = () => {
     // const navigate = useNavigate();
 
     const { register, handleSubmit, formState: { errors } } = useForm();
-    const [error, setError] = useState(null);
+    // const [error, setError] = useState(null);
 
     // const { errors } = formState;
 
@@ -41,7 +41,7 @@ const SignupPage = () => {
             window.location.href = '/login';
         } catch (error) {
             console.error(error);
-            setError(error.response.data.error);
+            // setError(error.response.data.error);
         }
     };
 
@@ -156,16 +156,11 @@ const SignupPage = () => {
                                             value: 8,
                                             message: "Password must be at least 8 characters",
                                         },
-                                        pattern: {
-                                            value:
-                                                /^(?=.*[A-Z])(?=.*[!@#$&*^%()~`])(?=.*[0-9]).{8,}$/,
-                                            message: "Must contain: 1 special charceter, a capital letter and a number"
-                                        },
                                     })}
                             />
                             <span className='text-sm ml-3 text-red-600'>{errors.password?.message}</span>
                         </label>
-                        {error && <span className='text-sm ml-3 text-red-600'>{error}</span>}
+                        {/* {error && <span className='text-sm ml-3 text-red-600'>{error}</span>} */}
                         <section className='flex flex-col mx-16 ml-28 sm:ml-48'>
                             <Button intent='welcoming' label='Sign Up' />
                         </section>
