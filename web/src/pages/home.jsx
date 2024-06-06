@@ -3,10 +3,13 @@ import { UilMoneyWithdraw } from '@iconscout/react-unicons';
 import { UilEstate } from '@iconscout/react-unicons';
 import { UilMetro } from '@iconscout/react-unicons';
 import Menubar from '../components/menubar';
+import NotificationBar from '../components/notificationBar';
 import '../data';
 import { getMonthName } from '../data';
 import {useSelector} from 'react-redux';
 import { UilPlus } from '@iconscout/react-unicons'
+
+// every screen smaller than lg is considered a mobile screen
 
 const Home = () => {
     // const [userData, setUserData] = useState(null);
@@ -53,7 +56,7 @@ const Home = () => {
                     </article>
                     {/* Your home component content here */}
                 </section>
-                <section className='lg:hidden'>
+                <section className='lg:hidden max-lg:mb-2'>
                     <article className=' bg-zinc-900 rounded-3xl p-4 w-full'>
                         <p className='pb-0 mb-0 text-center text-xl text-white'>6400</p>
                         <p className='pt-0 pb-2 text-center text-sm text-white'> Current balance</p>
@@ -72,7 +75,7 @@ const Home = () => {
                         </article>
                     </article>
                 </section>
-                <section className=' bg-white rounded-[30px] pb-8 text-black px-5 pt-2 rtl w-4/5 max-lg:min-w-full h-max'>
+                <section className=' bg-white rounded-[30px] pb-8 text-black px-5 pt-2 rtl w-11/12 max-lg:min-w-full h-max'>
                     <p className='text-lg'> Saving plan</p>
                     <div className='flex align-items-center'>
                         <p className='font-light mb-1 '>Your Goals are within reach, Keep it up!</p>
@@ -81,7 +84,7 @@ const Home = () => {
                         </button>
                     </div>
 
-                    <section className='grid lg:gap-12 max-lg:gap-2 grid-cols-2 max-sm:grid-cols-1   '>
+                    <section className='grid lg:gap-8 max-lg:gap-2 grid-cols-2 max-sm:grid-cols-1   '>
                         <aside className='inline-block w-96 h-24 bg-zinc-300 bg-opacity-30 rounded-3xl px-2 py-2'>
                             <article className='flex-col'>
                                 <p className=' '>
@@ -117,7 +120,7 @@ const Home = () => {
                     </section>
                     
                 </section>
-                <section className='w-4/5 max-lg:min-w-full h-72 bg-white rounded-3xl mt-2 pt-1 pl-2 overflow-y-auto max-lg:mt-14'>
+                <section className='w-11/12 max-lg:min-w-full h-72  bg-white rounded-3xl mt-2 pt-1 pl-2 overflow-y-auto max-lg:mt-2'>
                     <p className='pb-2'> My recent transactions</p>
                     <article className='flex-col'>
                         <p className='pl-2 pb-2'>
@@ -174,6 +177,7 @@ const Home = () => {
             <section>
 
             </section>
+            <NotificationBar />
         </section>
     );
 }

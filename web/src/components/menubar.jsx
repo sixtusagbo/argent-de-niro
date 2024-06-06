@@ -15,6 +15,7 @@ import walletff from '../assets/icons/walletff.svg';
 import dart from '../assets/icons/dart.svg';
 import graph from '../assets/icons/graph.svg';
 import { UilEllipsisH } from '@iconscout/react-unicons';
+import { UilBell } from '@iconscout/react-unicons';
 import SearchBar from './searchButton';
 import Hamburger from './hamburger';
 import { Link } from 'react-router-dom';
@@ -94,6 +95,7 @@ const Menubar = () => {
                     </article>
                 </section>
                 <SearchBar />
+                <UilBell size={30} className="hidden max-lg:inline-block absolute top-1/2 transform -translate-y-1/2 right-16 text-white" />
                 <UilEllipsisH size={30} onClick={toggleMenu} className="hidden max-lg:inline-block absolute top-1/2 transform -translate-y-1/2 right-6 text-white" />
             </section>
             {isMenuOpen && <Hamburger />}
